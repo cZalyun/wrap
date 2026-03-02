@@ -6,7 +6,7 @@
  */
 
 /** Fully-qualified production base URL — no trailing slash. */ // TODO: change when deploying to custom domain
-export const SITE_BASE_URL = 'https://czaunpeterbence.github.io/wrap';
+export const SITE_BASE_URL = 'https://czalyun.github.io/wrap';
 
 /** Site-root-relative path to the default share image (must be 1200 × 630 px JPEG/PNG). */
 export const DEFAULT_OG_IMAGE_PATH = '/images/og-default.jpg';
