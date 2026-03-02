@@ -8,10 +8,10 @@ interface Props { locale?: Locale; }
 const { locale = 'en' } = Astro.props;
 ---
 
-<header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 text-white">
+<header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 navbar-top">
   <nav class="mx-auto max-w-7xl px-6 lg:px-8 flex items-center justify-between h-16 lg:h-20">
     <!-- Logo -->
-    <a href={localePath(locale, '/')} class="relative z-50 text-lg font-display font-bold italic transition-opacity hover:opacity-70 text-white">
+    <a href={localePath(locale, '/')} class="relative z-50 text-lg font-display font-bold italic transition-opacity hover:opacity-70 navbar-text">
       {siteConfig.brand}
     </a>
 
@@ -20,12 +20,12 @@ const { locale = 'en' } = Astro.props;
       {siteConfig.navigation.map((item) => (
         <a
           href={localePath(locale, item.path)}
-          class="text-sm tracking-[0.1em] uppercase transition-opacity hover:opacity-70 text-white"
+          class="text-sm tracking-[0.1em] uppercase transition-opacity hover:opacity-70 navbar-text"
         >
           {t(locale, item.key)}
         </a>
       ))}
-      <div class="flex items-center gap-3 ml-4">
+      <div class="flex items-center gap-3 ml-4 navbar-controls">
         <LanguageToggle locale={locale} />
         <ThemeToggle locale={locale} />
       </div>
@@ -37,10 +37,10 @@ const { locale = 'en' } = Astro.props;
       type="button"
       aria-label="Toggle menu"
       aria-expanded="false"
-      class="relative z-50 md:hidden w-10 h-10 cursor-pointer text-white"
+      class="relative z-50 md:hidden w-10 h-10 cursor-pointer"
     >
-      <span class="absolute left-2 top-[16px] block w-6 h-[1.5px] bg-white transition-all duration-300 origin-center" id="menu-line-1"></span>
-      <span class="absolute left-2 top-[23px] block w-6 h-[1.5px] bg-white transition-all duration-300 origin-center" id="menu-line-2"></span>
+      <span class="absolute left-2 top-[16px] block w-6 h-[1.5px] transition-all duration-300 origin-center navbar-line" id="menu-line-1"></span>
+      <span class="absolute left-2 top-[23px] block w-6 h-[1.5px] transition-all duration-300 origin-center navbar-line" id="menu-line-2"></span>
     </button>
   </nav>
 </header>
@@ -74,25 +74,58 @@ const { locale = 'en' } = Astro.props;
     var line2 = document.getElementById('menu-line-2');
     var isOpen = false;
 
-    // Scroll effect — blur navbar on scroll
-    window.addEventListener('scroll', function() {
+    function isLightMode() {
+      return document.documentElement.classList.contains('light');
+    }
+
+    var hasHero = !!document.getElementById('hero-video');
+
+    function updateNavbar() {
       if (!navbar || isOpen) return;
-      if (window.scrollY > 60) {
-        navbar.style.backdropFilter = 'blur(12px)';
-        navbar.style.webkitBackdropFilter = 'blur(12px)';
-        navbar.style.backgroundColor = 'rgba(10,10,11,0.6)';
+      var scrolled = window.scrollY > 60;
+      var light = isLightMode();
+
+      // Pages without hero: always act as "scrolled" so navbar adapts to theme
+      var useScrolledStyle = scrolled || !hasHero;
+
+      if (useScrolledStyle) {
+        navbar.style.backdropFilter = scrolled ? 'blur(12px)' : 'none';
+        navbar.style.webkitBackdropFilter = scrolled ? 'blur(12px)' : 'none';
+        if (light) {
+          navbar.style.backgroundColor = scrolled ? 'rgba(255,255,255,0.85)' : 'transparent';
+          navbar.classList.remove('navbar-top');
+          navbar.classList.add('navbar-scrolled-light');
+          navbar.classList.remove('navbar-scrolled-dark');
+        } else {
+          navbar.style.backgroundColor = scrolled ? 'rgba(10,10,11,0.6)' : 'transparent';
+          navbar.classList.remove('navbar-top');
+          navbar.classList.remove('navbar-scrolled-light');
+          navbar.classList.add('navbar-scrolled-dark');
+        }
       } else {
+        // On hero: always white text
         navbar.style.backdropFilter = 'none';
         navbar.style.webkitBackdropFilter = 'none';
         navbar.style.backgroundColor = 'transparent';
+        navbar.classList.add('navbar-top');
+        navbar.classList.remove('navbar-scrolled-light');
+        navbar.classList.remove('navbar-scrolled-dark');
       }
-    });
+    }
+
+    window.addEventListener('scroll', updateNavbar);
+    updateNavbar(); // Apply correct state on initial load
+
+    // Re-evaluate on theme change
+    var observer = new MutationObserver(function() { updateNavbar(); });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 
     if (!btn || !menu) return;
 
     function openMenu() {
       isOpen = true;
       btn.setAttribute('aria-expanded', 'true');
+      navbar.classList.add('navbar-menu-open');
       menu.style.pointerEvents = 'auto';
       menu.style.opacity = '1';
       document.body.style.overflow = 'hidden';
@@ -109,6 +142,7 @@ const { locale = 'en' } = Astro.props;
     function closeMenu() {
       isOpen = false;
       btn.setAttribute('aria-expanded', 'false');
+      navbar.classList.remove('navbar-menu-open');
       // Animate nav links out first
       menu.querySelectorAll('.mobile-nav-link').forEach(function(el) {
         el.style.opacity = '0';
@@ -119,6 +153,7 @@ const { locale = 'en' } = Astro.props;
         menu.style.opacity = '0';
         menu.style.pointerEvents = 'none';
         document.body.style.overflow = '';
+        updateNavbar();
       }, 200);
       // Reset hamburger
       line1.style.transform = '';

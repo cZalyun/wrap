@@ -11,7 +11,7 @@ const switchUrl = switchLocalePath(Astro.url, targetLocale);
 <a
   href={switchUrl}
   aria-label={t(locale, 'lang.switchTo')}
-  class="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium uppercase tracking-display rounded-full border border-white/20 hover:border-white/40 transition-colors duration-200 text-white"
+  class="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium uppercase tracking-display rounded-full border transition-colors duration-200"
 >
   <span class="opacity-60">{locale.toUpperCase()}</span>
   <span class="opacity-30">/</span>

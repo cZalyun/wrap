@@ -7,7 +7,7 @@ const { locale = 'en' } = Astro.props;
 <button
   type="button"
   aria-label={t(locale, 'theme.dark')}
-  class="theme-toggle-btn relative w-9 h-9 flex items-center justify-center rounded-full border border-white/20 hover:border-white/40 transition-colors duration-200 cursor-pointer text-white"
+  class="theme-toggle-btn relative w-9 h-9 flex items-center justify-center rounded-full border transition-colors duration-200 cursor-pointer"
 >
   <!-- Sun icon (shown in dark mode) -->
   <svg class="w-4 h-4 sun-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">

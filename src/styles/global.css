@@ -136,6 +136,37 @@
   .section-cream .theme-border-hover:hover {
     border-color: rgba(0, 0, 0, 0.2);
   }
+
+  /* Navbar states */
+  .navbar-top .navbar-text { color: #fff; }
+  .navbar-top .navbar-line { background-color: #fff; }
+  .navbar-top .navbar-controls a,
+  .navbar-top .navbar-controls button { color: #fff; border-color: rgba(255,255,255,0.2); }
+  .navbar-top .navbar-controls a:hover,
+  .navbar-top .navbar-controls button:hover { border-color: rgba(255,255,255,0.4); }
+
+  .navbar-scrolled-dark .navbar-text { color: #fff; }
+  .navbar-scrolled-dark .navbar-line { background-color: #fff; }
+  .navbar-scrolled-dark .navbar-controls a,
+  .navbar-scrolled-dark .navbar-controls button { color: #fff; border-color: rgba(255,255,255,0.2); }
+
+  .navbar-scrolled-light .navbar-text { color: #1A1A1A; }
+  .navbar-scrolled-light .navbar-line { background-color: #1A1A1A; }
+  .navbar-scrolled-light .navbar-controls a,
+  .navbar-scrolled-light .navbar-controls button { color: #1A1A1A; border-color: rgba(0,0,0,0.15); }
+  .navbar-scrolled-light .navbar-controls a:hover,
+  .navbar-scrolled-light .navbar-controls button:hover { border-color: rgba(0,0,0,0.3); }
+  .navbar-scrolled-light .navbar-controls svg { stroke: #1A1A1A; }
+
+  .navbar-menu-open .navbar-text { color: #fff !important; }
+  .navbar-menu-open .navbar-line { background-color: #fff !important; }
+  .navbar-menu-open .navbar-controls a,
+  .navbar-menu-open .navbar-controls button { color: #fff !important; border-color: rgba(255,255,255,0.2) !important; }
+
+  /* Mobile menu overlay is always dark — force white on toggles inside it */
+  #mobile-menu a,
+  #mobile-menu button { color: #fff !important; border-color: rgba(255,255,255,0.3) !important; }
+  #mobile-menu svg { stroke: #fff !important; }
 }
 
 @layer utilities {
