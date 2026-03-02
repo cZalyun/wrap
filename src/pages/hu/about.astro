@@ -11,7 +11,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const processSteps = ['vision', 'creation', 'refinement'] as const;
 ---
 
-<BaseLayout title={t(locale, 'about.pageTitle')} locale={locale}>
+<BaseLayout title={t(locale, 'about.pageTitle')} description={t(locale, 'about.pageSubtitle')} locale={locale}>
   <div class="pt-20"></div>
   <Section>
     <div class="mb-16 reveal-on-scroll">

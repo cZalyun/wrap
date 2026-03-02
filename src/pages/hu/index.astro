@@ -11,14 +11,14 @@ import TestimonialCarousel from '../../components/TestimonialCarousel.astro';
 import CTASection from '../../components/CTASection.astro';
 import RevealOnScroll from '../../components/RevealOnScroll.astro';
 import Button from '../../components/Button.astro';
-import { siteConfig } from '../../content/site.config';
+import { siteConfig, getLocalizedString } from '../../content/site.config';
 import { t, tArray, localePath } from '../../i18n/utils';
 
 const locale = 'hu';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
-<BaseLayout locale={locale}>
+<BaseLayout title={getLocalizedString(siteConfig.tagline, locale)} locale={locale}>
   <Hero locale={locale} />
   <DefinitionBlock locale={locale} />
   <BrandMarquee locale={locale} />

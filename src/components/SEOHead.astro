@@ -1,14 +1,24 @@
 ---
 import { siteConfig } from '../content/site.config';
 import { t, type Locale } from '../i18n/utils';
+import {
+  resolveOgImage,
+  truncateDescription,
+  absoluteUrl,
+  OG_IMAGE_WIDTH,
+  OG_IMAGE_HEIGHT,
+} from '../lib/seo';
 
 interface Props {
   title?: string;
   description?: string;
+  /** Site-relative or absolute path to a 1200×630 JPEG/PNG share image. SVGs fall back to the default. */
   ogImage?: string;
   canonicalUrl?: string;
   locale?: Locale;
   type?: string;
+  /** Set to true for pages that should not appear in social previews (e.g. admin, noindex pages). */
+  noindex?: boolean;
 }
 
 const {
@@ -18,41 +28,58 @@ const {
   canonicalUrl,
   locale = 'en',
   type = 'website',
+  noindex = false,
 } = Astro.props;
 
 const siteTitle = t(locale, 'meta.siteTitle');
 const pageTitle = title ? `${title} | ${siteTitle}` : `${siteTitle} | ${t(locale, 'meta.siteDescription')}`;
-const pageDescription = description || t(locale, 'meta.siteDescription');
-const pageOgImage = ogImage || `${Astro.url.origin}${import.meta.env.BASE_URL.replace(/\/$/, '')}/images/og-default.jpg`;
+const rawDescription = description || t(locale, 'meta.siteDescription');
+const pageDescription = truncateDescription(rawDescription);
+const pageOgImage = resolveOgImage(ogImage);
 const canonical = canonicalUrl || Astro.url.href;
----
 
-<title>{pageTitle}</title>
-<meta name="description" content={pageDescription} />
-<link rel="canonical" href={canonical} />
+const ogLocale = locale === 'hu' ? 'hu_HU' : 'en_US';
+const ogLocaleAlternate = locale === 'hu' ? 'en_US' : 'hu_HU';
 
-<!-- Open Graph -->
-<meta property="og:type" content={type} />
-<meta property="og:title" content={pageTitle} />
-<meta property="og:description" content={pageDescription} />
-<meta property="og:image" content={pageOgImage} />
-<meta property="og:url" content={canonical} />
-<meta property="og:site_name" content={siteTitle} />
-<meta property="og:locale" content={locale === 'hu' ? 'hu_HU' : 'en_US'} />
-
-<!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content={pageTitle} />
-<meta name="twitter:description" content={pageDescription} />
-<meta name="twitter:image" content={pageOgImage} />
-
-<!-- JSON-LD -->
-<script type="application/ld+json" set:html={JSON.stringify({
+const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: siteConfig.brand,
   description: pageDescription,
-  url: `${Astro.url.origin}${import.meta.env.BASE_URL.replace(/\/$/, '')}/`,
-  logo: `${Astro.url.origin}${import.meta.env.BASE_URL.replace(/\/$/, '')}/images/logo.svg`,
-  sameAs: siteConfig.socials.map(s => s.url),
-})} />
+  url: absoluteUrl('/'),
+  logo: absoluteUrl('/images/logo.svg'),
+  sameAs: siteConfig.socials.map((s) => s.url),
+};
+---
+
+<title>{pageTitle}</title>
+<meta name="description" content={pageDescription} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+<link rel="canonical" href={canonical} />
+
+{!noindex && (
+  <>
+    <!-- Open Graph -->
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:image" content={pageOgImage} />
+    <meta property="og:image:width" content={String(OG_IMAGE_WIDTH)} />
+    <meta property="og:image:height" content={String(OG_IMAGE_HEIGHT)} />
+    <meta property="og:image:alt" content={pageTitle} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={siteTitle} />
+    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:locale:alternate" content={ogLocaleAlternate} />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDescription} />
+    <meta name="twitter:image" content={pageOgImage} />
+    <meta name="twitter:image:alt" content={pageTitle} />
+  </>
+)}
+
+<!-- JSON-LD -->
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />

@@ -12,6 +12,8 @@ export interface WorkItem {
   category: LocaleString;
   description: LocaleString;
   coverImage: string;
+  /** Optional dedicated 1200×630 JPEG/PNG for link previews. Falls back to coverImage, then site default. */
+  ogImage?: string;
   year: number;
   role: LocaleString;
   metrics?: { label: LocaleString; value: string }[];

@@ -6,6 +6,7 @@ import CTASection from '../../../components/CTASection.astro';
 import RevealOnScroll from '../../../components/RevealOnScroll.astro';
 import { siteConfig, getLocalizedString, type WorkItem } from '../../../content/site.config';
 import { t, localePath } from '../../../i18n/utils';
+import { buildWorkDescription, resolveOgImage } from '../../../lib/seo';
 
 const locale = 'hu';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -19,12 +20,22 @@ export function getStaticPaths() {
 
 interface Props { work: WorkItem; }
 const { work } = Astro.props;
+
+const workTitle = getLocalizedString(work.title, locale);
+const workDescription = buildWorkDescription(
+  getLocalizedString(work.category, locale),
+  work.year,
+  getLocalizedString(work.subtitle, locale),
+);
+const workOgImage = resolveOgImage(work.ogImage ?? work.coverImage);
 ---
 
 <BaseLayout
-  title={getLocalizedString(work.title, locale)}
-  description={getLocalizedString(work.subtitle, locale)}
+  title={workTitle}
+  description={workDescription}
+  ogImage={workOgImage}
   locale={locale}
+  type="article"
 >
   <div class="pt-20"></div>
   <Section>

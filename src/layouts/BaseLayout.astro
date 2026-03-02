@@ -9,11 +9,13 @@ interface Props {
   title?: string;
   description?: string;
   ogImage?: string;
+  canonicalUrl?: string;
   locale?: Locale;
   type?: string;
+  noindex?: boolean;
 }
 
-const { title, description, ogImage, locale = 'en', type = 'website' } = Astro.props;
+const { title, description, ogImage, canonicalUrl, locale = 'en', type = 'website', noindex = false } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -38,8 +40,10 @@ const { title, description, ogImage, locale = 'en', type = 'website' } = Astro.p
     title={title}
     description={description}
     ogImage={ogImage}
+    canonicalUrl={canonicalUrl}
     locale={locale}
     type={type}
+    noindex={noindex}
   />
 
   <!-- Theme init (prevent flash) -->
