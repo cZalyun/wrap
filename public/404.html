@@ -3,8 +3,17 @@
 <head>
   <meta charset="utf-8">
   <title>Redirecting…</title>
-  <meta http-equiv="refresh" content="0;url=/wrap/">
-  <script>window.location.replace('/wrap/');</script>
+  <script>
+    // GitHub Pages SPA redirect.
+    // Saves the original URL so BaseLayout.astro can restore it via sessionStorage.
+    //
+    // DEPLOYMENT NOTE:
+    //   GitHub Pages (no custom domain) → base = '/wrap/'
+    //   GitHub Pages (custom domain)    → base = '/'  (also update astro.config.mjs base)
+    var base = '/wrap/';
+    sessionStorage.setItem('spa-redirect', window.location.href);
+    window.location.replace(base);
+  </script>
 </head>
 <body>
   <p>Redirecting&hellip;</p>

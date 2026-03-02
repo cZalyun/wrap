@@ -12,6 +12,7 @@ interface Props {
 }
 
 const { work, locale, index, featured = false } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <div class="reveal-on-scroll" style={`animation-delay: ${index * 0.15}s`}>
@@ -26,7 +27,7 @@ const { work, locale, index, featured = false } = Astro.props;
       'rounded-xl'
     ]}>
       <img
-        src={`/wrap${work.coverImage}`}
+        src={`${base}${work.coverImage}`}
         alt={getLocalizedString(work.title, locale)}
         width="1280"
         height="720"

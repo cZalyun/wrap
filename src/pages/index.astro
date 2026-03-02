@@ -15,6 +15,7 @@ import { siteConfig } from '../content/site.config';
 import { t, tArray, localePath } from '../i18n/utils';
 
 const locale = 'en';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <BaseLayout locale={locale}>
@@ -81,7 +82,7 @@ const locale = 'en';
           />
         </div>
         <div class="hidden lg:block relative rounded-xl overflow-hidden">
-          <img src={`/wrap${siteConfig.servicesImage}`} alt="" class="w-full h-full object-cover sticky top-24" />
+          <img src={`${base}${siteConfig.servicesImage}`} alt="" class="w-full h-full object-cover sticky top-24" />
         </div>
       </div>
     </div>

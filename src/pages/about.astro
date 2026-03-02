@@ -7,6 +7,7 @@ import { siteConfig, getLocalizedString } from '../content/site.config';
 import { t } from '../i18n/utils';
 
 const locale = 'en';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const processSteps = ['vision', 'creation', 'refinement'] as const;
 ---
 
@@ -24,7 +25,7 @@ const processSteps = ['vision', 'creation', 'refinement'] as const;
         <div class="reveal-on-scroll" style={`animation-delay: ${i * 0.15}s`}>
           <div class="relative aspect-[3/4] rounded-xl overflow-hidden mb-6 border theme-border">
             <img
-              src={`/wrap${member.image}`}
+              src={`${base}${member.image}`}
               alt={member.name}
               width="600"
               height="800"

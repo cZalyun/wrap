@@ -34,7 +34,9 @@ export function tArray(locale: Locale, key: string): string[] {
 }
 
 export function getLocaleFromUrl(url: URL): Locale {
-  const segments = url.pathname.replace(/^\/wrap/, '').split('/').filter(Boolean);
+  const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+  const pathname = base ? url.pathname.slice(base.length) : url.pathname;
+  const segments = pathname.split('/').filter(Boolean);
   if (segments[0] && locales.includes(segments[0] as Locale)) {
     return segments[0] as Locale;
   }
@@ -42,7 +44,7 @@ export function getLocaleFromUrl(url: URL): Locale {
 }
 
 export function localePath(locale: Locale, path: string): string {
-  const base = '/wrap';
+  const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   const cleanPath = path.startsWith('/') ? path : `/${path}`;
   if (locale === defaultLocale) {
     return `${base}${cleanPath}`;
@@ -51,8 +53,8 @@ export function localePath(locale: Locale, path: string): string {
 }
 
 export function switchLocalePath(currentUrl: URL, targetLocale: Locale): string {
-  const base = '/wrap';
-  const pathname = currentUrl.pathname.replace(/^\/wrap/, '');
+  const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+  const pathname = base ? currentUrl.pathname.slice(base.length) : currentUrl.pathname;
   const segments = pathname.split('/').filter(Boolean);
 
   if (locales.includes(segments[0] as Locale)) {

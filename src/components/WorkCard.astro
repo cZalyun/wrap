@@ -10,6 +10,7 @@ interface Props {
 }
 
 const { work, locale, index } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <a
@@ -19,7 +20,7 @@ const { work, locale, index } = Astro.props;
 >
   <div class="relative aspect-[16/10] rounded-xl overflow-hidden mb-4 border theme-border">
     <img
-      src={`/wrap${work.coverImage}`}
+      src={`${base}${work.coverImage}`}
       alt={getLocalizedString(work.title, locale)}
       width="800"
       height="500"

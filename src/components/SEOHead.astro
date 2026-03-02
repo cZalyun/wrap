@@ -23,7 +23,7 @@ const {
 const siteTitle = t(locale, 'meta.siteTitle');
 const pageTitle = title ? `${title} | ${siteTitle}` : `${siteTitle} | ${t(locale, 'meta.siteDescription')}`;
 const pageDescription = description || t(locale, 'meta.siteDescription');
-const pageOgImage = ogImage || `${Astro.site}wrap/images/og-default.jpg`;
+const pageOgImage = ogImage || `${Astro.url.origin}${import.meta.env.BASE_URL}images/og-default.jpg`;
 const canonical = canonicalUrl || Astro.url.href;
 ---
 
@@ -52,7 +52,7 @@ const canonical = canonicalUrl || Astro.url.href;
   '@type': 'Organization',
   name: siteConfig.brand,
   description: pageDescription,
-  url: `${Astro.site}wrap/`,
-  logo: `${Astro.site}wrap/images/logo.svg`,
+  url: `${Astro.url.origin}${import.meta.env.BASE_URL}`,
+  logo: `${Astro.url.origin}${import.meta.env.BASE_URL}images/logo.svg`,
   sameAs: siteConfig.socials.map(s => s.url),
 })} />

@@ -17,9 +17,9 @@ const { locale = 'en' } = Astro.props;
       loop
       playsinline
       preload="auto"
-      poster={`/wrap${siteConfig.heroPoster}`}
+      poster={`${import.meta.env.BASE_URL.replace(/\/$/, '')}${siteConfig.heroPoster}`}
     >
-      <source src={siteConfig.heroVideo} type="video/mp4" />
+      <source src={`${import.meta.env.BASE_URL.replace(/\/$/, '')}${siteConfig.heroVideo}`} type="video/mp4" />
     </video>
     <!-- Dark overlay gradient — bottom-heavy for text readability -->
     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10" aria-hidden="true"></div>
