@@ -1,0 +1,87 @@
+---
+import { siteConfig, getLocalizedString } from '../content/site.config';
+import { t, type Locale } from '../i18n/utils';
+
+interface Props { locale?: Locale; }
+const { locale = 'en' } = Astro.props;
+---
+
+<section class="section-padding px-6 lg:px-8">
+  <div class="mx-auto max-w-7xl">
+    <!-- Header with numbered tabs -->
+    <div class="flex items-center gap-6 mb-10 md:mb-14 reveal-on-scroll">
+      <h2 class="text-sm md:text-base font-bold uppercase tracking-[0.15em]">{t(locale, 'testimonials.title')}</h2>
+      <div class="flex items-center gap-3">
+        {siteConfig.testimonials.map((_, i) => (
+          <button
+            class="review-tab text-sm font-sans transition-opacity duration-300 cursor-pointer"
+            class:list={[i === 0 ? 'opacity-100' : 'opacity-30 hover:opacity-60']}
+            data-index={i}
+            aria-label={`Review ${i + 1}`}
+          >
+            {i + 1}
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <!-- Reviews container -->
+    <div id="reviews-container" class="relative">
+      {siteConfig.testimonials.map((testimonial, i) => (
+        <div
+          class="review-slide grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16"
+          data-index={i}
+          style={i > 0 ? 'display:none;' : ''}
+        >
+          <blockquote class="flex flex-col justify-center">
+            <p class="text-sm md:text-base leading-relaxed opacity-80">
+              {getLocalizedString(testimonial.quote, locale)}
+            </p>
+            <div class="mt-8">
+              <p class="text-sm font-medium">{testimonial.author}</p>
+              <p class="text-xs opacity-50 mt-1">
+                {getLocalizedString(testimonial.role, locale)} — {testimonial.company}
+              </p>
+            </div>
+          </blockquote>
+          <div class="relative aspect-[4/3] rounded-xl overflow-hidden bg-white/5">
+            <img
+              src={`/wrap/images/work/${['aurora','meridian','solace'][i % 3]}.svg`}
+              alt={testimonial.company}
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+document.addEventListener('DOMContentLoaded', function() {
+  var tabs = document.querySelectorAll('.review-tab');
+  var slides = document.querySelectorAll('.review-slide');
+  if (!tabs.length || !slides.length) return;
+
+  function show(idx) {
+    slides.forEach(function(s, i) { s.style.display = i === idx ? '' : 'none'; });
+    tabs.forEach(function(t, i) {
+      t.classList.toggle('opacity-100', i === idx);
+      t.classList.toggle('opacity-30', i !== idx);
+    });
+  }
+
+  tabs.forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      show(parseInt(tab.getAttribute('data-index')));
+    });
+  });
+
+  var current = 0;
+  setInterval(function() {
+    current = (current + 1) % slides.length;
+    show(current);
+  }, 7000);
+});
+</script>

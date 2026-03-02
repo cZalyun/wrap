@@ -1,0 +1,55 @@
+---
+import { t, localePath, type Locale } from '../i18n/utils';
+import { siteConfig } from '../content/site.config';
+
+interface Props { locale?: Locale; }
+const { locale = 'en' } = Astro.props;
+---
+
+<section class="relative h-screen w-full overflow-hidden">
+  <!-- Video / Image background -->
+  <div class="absolute inset-0 z-0">
+    <video
+      id="hero-video"
+      class="absolute inset-0 w-full h-full object-cover"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="auto"
+      poster="/wrap/images/hero-poster.svg"
+    >
+      <source src={siteConfig.heroVideo} type="video/mp4" />
+    </video>
+    <!-- Dark overlay gradient — bottom-heavy for text readability -->
+    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10" aria-hidden="true"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent" aria-hidden="true"></div>
+  </div>
+
+  <!-- Content overlay — bottom-left aligned like reference -->
+  <div class="relative z-10 h-full flex flex-col justify-end px-6 lg:px-12 xl:px-20 pb-16 md:pb-20 lg:pb-24">
+    <div class="max-w-4xl">
+      <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.5rem] font-display font-bold leading-[0.92] tracking-tight-display text-white mb-4 md:mb-6 animate-fade-in-up" style="animation-delay: 0.2s;">
+        {t(locale, 'hero.heading')}
+      </h1>
+      <p class="text-lg md:text-xl lg:text-2xl text-white/80 font-display italic mb-8 md:mb-10 animate-fade-in-up" style="animation-delay: 0.4s;">
+        {t(locale, 'hero.title')}
+      </p>
+      <div class="animate-fade-in-up" style="animation-delay: 0.6s;">
+        <a
+          href={localePath(locale, '/contact')}
+          class="inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-white/30 text-white text-sm uppercase tracking-display font-medium hover:bg-white hover:text-black transition-all duration-300"
+        >
+          {t(locale, 'cta.button')}
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 animate-fade-in" style="animation-delay: 1.2s;">
+    <div class="flex flex-col items-center gap-2">
+      <div class="w-px h-10 bg-gradient-to-b from-white/50 to-transparent"></div>
+    </div>
+  </div>
+</section>

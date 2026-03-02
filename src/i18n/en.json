@@ -1,0 +1,118 @@
+{
+  "nav": {
+    "home": "Home",
+    "work": "Work",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "hero": {
+    "heading": "PIONEERS IN BRAND STORYTELLING",
+    "title": "Crafted with intention.",
+    "subtitle": "We create cinematic brand films that move audiences and elevate brands.",
+    "cta": "View Our Work"
+  },
+  "definition": {
+    "word": "wrap",
+    "type": "noun",
+    "phonetic": "/ ræp /",
+    "meaning": "The culmination of a creative vision — where concept, craft, and story converge into a finished piece. In film, \"that's a wrap\" signals the moment art becomes complete."
+  },
+  "services": {
+    "title": "What We Do",
+    "items": {
+      "author": {
+        "title": "We Craft.",
+        "subtitle": "Stories that start with soul.",
+        "list": ["Concept Development & Ideation", "Creative Direction", "Visual Identity & Tone"]
+      },
+      "direct": {
+        "title": "We Direct.",
+        "subtitle": "Every frame with feeling.",
+        "list": ["Scriptwriting & Storyboarding", "Full-Scale Video Production", "Editing & Post-Production"]
+      },
+      "share": {
+        "title": "We Deliver.",
+        "subtitle": "Crafted to connect.",
+        "list": ["Campaign Strategy & Management", "Content Optimisation", "Community Engagement & Repurposing"]
+      }
+    }
+  },
+  "featuredWork": {
+    "title": "Featured Work",
+    "subtitle": "Selected projects from our portfolio",
+    "viewProject": "View Project",
+    "viewAll": "View All Work"
+  },
+  "testimonials": {
+    "title": "Reviews",
+    "subtitle": "What our clients say"
+  },
+  "about": {
+    "pageTitle": "About Us.",
+    "pageSubtitle": "Founded by filmmakers. Driven by story.",
+    "storyTitle": "Our Story",
+    "processTitle": "Our Process",
+    "process": {
+      "vision": {
+        "title": "Vision & Strategy",
+        "description": "Every great story starts with a bold idea. We collaborate closely to refine your vision, crafting compelling concepts that resonate with your audience."
+      },
+      "creation": {
+        "title": "Creation & Execution",
+        "description": "From script to screen, we bring your vision to life. Our team blends artistry and precision, capturing stunning visuals that engage and inspire."
+      },
+      "refinement": {
+        "title": "Refinement & Impact",
+        "description": "We refine every frame through expert editing, dynamic pacing, and seamless transitions to craft a compelling narrative that leaves a lasting impression."
+      }
+    }
+  },
+  "contact": {
+    "pageTitle": "Let's Talk.",
+    "pageSubtitle": "Got something in mind? We'd love to hear about your project.",
+    "copyEmail": "Copy Email",
+    "sendEmail": "Send Email",
+    "call": "Call",
+    "emailCopied": "Copied!",
+    "callNow": "Call Now",
+    "formTitle": "Send us a message",
+    "formSubtitle": "This will open your default email app.",
+    "formName": "Your Name",
+    "formSubject": "Subject",
+    "formMessage": "Your message...",
+    "formSend": "Send Message"
+  },
+  "cta": {
+    "title": "Got something in mind?",
+    "subtitle": "Let's create something extraordinary together.",
+    "button": "Get in Touch"
+  },
+  "footer": {
+    "tagline": "More than just a studio.",
+    "navigation": "Navigation",
+    "socials": "Socials",
+    "legal": "Legal",
+    "privacy": "Privacy Policy",
+    "terms": "Terms & Conditions",
+    "copyright": "© {year} Wrap Studios. All rights reserved."
+  },
+  "work": {
+    "pageTitle": "Our Work.",
+    "pageSubtitle": "A curated selection of our cinematic projects.",
+    "role": "Role",
+    "year": "Year",
+    "backToWork": "← Back to Work"
+  },
+  "theme": {
+    "light": "Light mode",
+    "dark": "Dark mode"
+  },
+  "lang": {
+    "switchTo": "Magyar"
+  },
+  "meta": {
+    "siteTitle": "Wrap Studios",
+    "siteDescription": "Award-winning creative studio crafting cinematic brand films and visual stories that move audiences and elevate brands.",
+    "ogImage": "/images/og-default.jpg"
+  }
+}

@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/Section.astro';
+import FeaturedWorkEmbed from '../../components/FeaturedWorkEmbed.astro';
+import CTASection from '../../components/CTASection.astro';
+import RevealOnScroll from '../../components/RevealOnScroll.astro';
+import { siteConfig } from '../../content/site.config';
+import { t } from '../../i18n/utils';
+
+const locale = 'en';
+---
+
+<BaseLayout title={t(locale, 'work.pageTitle')} locale={locale}>
+  <div class="pt-20"></div>
+  <Section>
+    <div class="mb-16 reveal-on-scroll">
+      <p class="text-xs uppercase tracking-display opacity-40 mb-3">{t(locale, 'featuredWork.subtitle')}</p>
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-display font-semibold">{t(locale, 'work.pageTitle')}</h1>
+      <p class="text-base md:text-lg opacity-50 mt-4 max-w-2xl">{t(locale, 'work.pageSubtitle')}</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {siteConfig.work.map((work, i) => (
+        <FeaturedWorkEmbed work={work} locale={locale} index={i} />
+      ))}
+    </div>
+  </Section>
+  <CTASection locale={locale} />
+  <RevealOnScroll />
+</BaseLayout>

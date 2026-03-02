@@ -1,0 +1,19 @@
+---
+import { t, localePath, type Locale } from '../i18n/utils';
+import Button from './Button.astro';
+
+interface Props { locale?: Locale; }
+const { locale = 'en' } = Astro.props;
+---
+
+<section class="section-padding px-6 lg:px-8">
+  <div class="mx-auto max-w-4xl text-center reveal-on-scroll">
+    <h2 class="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-display font-semibold tracking-tight-display mb-6">
+      {t(locale, 'cta.title')}
+    </h2>
+    <p class="text-base md:text-lg opacity-50 mb-10 max-w-xl mx-auto">{t(locale, 'cta.subtitle')}</p>
+    <Button href={localePath(locale, '/contact')} variant="primary" size="lg">
+      {t(locale, 'cta.button')}
+    </Button>
+  </div>
+</section>

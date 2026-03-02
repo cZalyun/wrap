@@ -1,0 +1,42 @@
+---
+import { localePath, type Locale } from '../i18n/utils';
+import type { WorkItem } from '../content/site.config';
+import { getLocalizedString } from '../content/site.config';
+
+interface Props {
+  work: WorkItem;
+  locale: Locale;
+  index: number;
+}
+
+const { work, locale, index } = Astro.props;
+---
+
+<a
+  href={localePath(locale, `/work/${work.slug}`)}
+  class="group block reveal-on-scroll"
+  style={`animation-delay: ${index * 0.1}s`}
+>
+  <div class="relative aspect-[16/10] rounded-xl overflow-hidden mb-4 border theme-border">
+    <img
+      src={`/wrap${work.coverImage}`}
+      alt={getLocalizedString(work.title, locale)}
+      width="800"
+      height="500"
+      loading={index < 2 ? 'eager' : 'lazy'}
+      class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+    />
+    <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+  </div>
+  <div class="flex items-start justify-between gap-4">
+    <div>
+      <h3 class="text-lg md:text-xl font-display font-medium group-hover:opacity-80 transition-opacity">
+        {getLocalizedString(work.title, locale)}
+      </h3>
+      <p class="text-sm opacity-50 mt-1">{getLocalizedString(work.subtitle, locale)}</p>
+    </div>
+    <span class="text-xs uppercase tracking-display opacity-40 mt-1 flex-shrink-0">
+      {getLocalizedString(work.category, locale)}
+    </span>
+  </div>
+</a>

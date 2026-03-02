@@ -1,0 +1,58 @@
+---
+import { siteConfig } from '../content/site.config';
+import { t, type Locale } from '../i18n/utils';
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  canonicalUrl?: string;
+  locale?: Locale;
+  type?: string;
+}
+
+const {
+  title,
+  description,
+  ogImage,
+  canonicalUrl,
+  locale = 'en',
+  type = 'website',
+} = Astro.props;
+
+const siteTitle = t(locale, 'meta.siteTitle');
+const pageTitle = title ? `${title} | ${siteTitle}` : `${siteTitle} | ${t(locale, 'meta.siteDescription')}`;
+const pageDescription = description || t(locale, 'meta.siteDescription');
+const pageOgImage = ogImage || `${Astro.site}wrap/images/og-default.jpg`;
+const canonical = canonicalUrl || Astro.url.href;
+---
+
+<title>{pageTitle}</title>
+<meta name="description" content={pageDescription} />
+<link rel="canonical" href={canonical} />
+
+<!-- Open Graph -->
+<meta property="og:type" content={type} />
+<meta property="og:title" content={pageTitle} />
+<meta property="og:description" content={pageDescription} />
+<meta property="og:image" content={pageOgImage} />
+<meta property="og:url" content={canonical} />
+<meta property="og:site_name" content={siteTitle} />
+<meta property="og:locale" content={locale === 'hu' ? 'hu_HU' : 'en_US'} />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={pageTitle} />
+<meta name="twitter:description" content={pageDescription} />
+<meta name="twitter:image" content={pageOgImage} />
+
+<!-- JSON-LD -->
+<script type="application/ld+json" set:html={JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: siteConfig.brand,
+  description: pageDescription,
+  url: `${Astro.site}wrap/`,
+  logo: `${Astro.site}wrap/images/logo.svg`,
+  sameAs: siteConfig.socials.map(s => s.url),
+})} />

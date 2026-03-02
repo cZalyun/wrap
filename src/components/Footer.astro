@@ -1,0 +1,118 @@
+---
+import { siteConfig, getLocalizedString } from '../content/site.config';
+import { t, localePath, type Locale } from '../i18n/utils';
+
+interface Props { locale?: Locale; }
+const { locale = 'en' } = Astro.props;
+
+const year = new Date().getFullYear();
+const copyright = t(locale, 'footer.copyright').replace('{year}', String(year));
+---
+
+<footer class="section-cream">
+  <div class="mx-auto max-w-7xl px-6 lg:px-8 py-12 md:py-20 lg:py-24">
+    <!-- Logo -->
+    <a href={localePath(locale, '/')} class="text-xl font-display font-bold italic inline-block mb-8 md:mb-12">
+      {siteConfig.brand}
+    </a>
+
+    <!-- Main grid: 2-col on mobile, 3-col on desktop -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-8 md:gap-x-12 mb-10 md:mb-16">
+      <!-- Team members — each gets a column on mobile -->
+      {siteConfig.team.map((member) => (
+        <div>
+          <h3 class="text-sm md:text-base font-bold uppercase tracking-[0.02em] mb-2">{member.name}</h3>
+          <button
+            class="contact-email-btn text-xs md:text-sm underline underline-offset-2 opacity-70 hover:opacity-100 transition-opacity cursor-pointer block mb-1"
+            data-ep={JSON.stringify(member.emailParts)}
+          >
+            {t(locale, 'contact.sendEmail')}
+          </button>
+          <button
+            class="contact-phone-btn text-xs md:text-sm opacity-70 hover:opacity-100 transition-opacity cursor-pointer block"
+            data-pp={JSON.stringify(member.phoneParts)}
+          >
+            {t(locale, 'contact.call')}
+          </button>
+        </div>
+      ))}
+
+      <!-- Navigation -->
+      <div>
+        <h3 class="text-xs md:text-sm font-bold uppercase tracking-[0.12em] mb-3 md:mb-5">{t(locale, 'footer.navigation')}</h3>
+        <ul class="space-y-2">
+          {siteConfig.navigation.filter(n => n.key !== 'nav.home').map((item) => (
+            <li>
+              <a href={localePath(locale, item.path)} class="text-xs md:text-sm opacity-70 hover:opacity-100 transition-opacity">
+                {t(locale, item.key)}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Socials -->
+      <div>
+        <h3 class="text-xs md:text-sm font-bold uppercase tracking-[0.12em] mb-3 md:mb-5">{t(locale, 'footer.socials')}</h3>
+        <ul class="space-y-2">
+          {siteConfig.socials.map((social) => (
+            <li>
+              <a href={social.url} target="_blank" rel="noopener noreferrer" class="opacity-70 hover:opacity-100 transition-opacity text-xs md:text-sm">
+                {social.name}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom -->
+    <div class="pt-5 border-t border-current/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+      <p class="text-xs opacity-40">{copyright}</p>
+      <div class="flex gap-4 text-xs opacity-40">
+        <span>{t(locale, 'footer.privacy')}</span>
+        <span>{t(locale, 'footer.terms')}</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script is:inline>
+document.addEventListener('DOMContentLoaded', function() {
+  // Anti-scrape email buttons → opens mailto:
+  document.querySelectorAll('.contact-email-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var ep = JSON.parse(btn.getAttribute('data-ep'));
+      var email = ep[0] + '@' + ep[1] + '.' + ep[2];
+      window.location.href = 'mailto:' + email;
+    });
+  });
+
+  // Anti-scrape phone buttons → opens tel:
+  document.querySelectorAll('.contact-phone-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var pp = JSON.parse(btn.getAttribute('data-pp'));
+      var phone = (pp[0] + pp[1] + pp[2]).replace(/\s/g, '');
+      window.location.href = 'tel:' + phone;
+    });
+  });
+
+  // Contact form → opens mailto: with pre-filled subject & body
+  var form = document.getElementById('contact-form');
+  if (form) {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var ep = JSON.parse(form.getAttribute('data-ep'));
+      var email = ep[0] + '@' + ep[1] + '.' + ep[2];
+      var name = document.getElementById('cf-name')?.value || '';
+      var subject = document.getElementById('cf-subject')?.value || '';
+      var message = document.getElementById('cf-message')?.value || '';
+      var body = (name ? 'From: ' + name + '\n\n' : '') + message;
+      var mailto = 'mailto:' + email
+        + '?subject=' + encodeURIComponent(subject)
+        + '&body=' + encodeURIComponent(body);
+      window.location.href = mailto;
+    });
+  }
+});
+</script>

@@ -1,0 +1,85 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/Hero.astro';
+import BrandMarquee from '../../components/BrandMarquee.astro';
+import DefinitionBlock from '../../components/DefinitionBlock.astro';
+import Section from '../../components/Section.astro';
+import ServiceCard from '../../components/ServiceCard.astro';
+import FeaturedWorkEmbed from '../../components/FeaturedWorkEmbed.astro';
+import FoundersBanner from '../../components/FoundersBanner.astro';
+import TestimonialCarousel from '../../components/TestimonialCarousel.astro';
+import CTASection from '../../components/CTASection.astro';
+import RevealOnScroll from '../../components/RevealOnScroll.astro';
+import Button from '../../components/Button.astro';
+import { siteConfig } from '../../content/site.config';
+import { t, tArray, localePath } from '../../i18n/utils';
+
+const locale = 'hu';
+---
+
+<BaseLayout locale={locale}>
+  <Hero locale={locale} />
+  <DefinitionBlock locale={locale} />
+  <BrandMarquee />
+
+  <Section>
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12 reveal-on-scroll">
+      <div>
+        <p class="text-xs uppercase tracking-[0.2em] opacity-40 mb-3">{t(locale, 'featuredWork.subtitle')}</p>
+        <h2 class="text-3xl md:text-4xl lg:text-5xl font-display font-semibold">{t(locale, 'featuredWork.title')}</h2>
+      </div>
+      <Button href={localePath(locale, '/work')} variant="ghost" size="sm" class="hidden sm:inline-flex">
+        {t(locale, 'featuredWork.viewAll')} →
+      </Button>
+    </div>
+    {siteConfig.work.slice(0, 1).map((work, i) => (
+      <FeaturedWorkEmbed work={work} locale={locale} index={i} featured={true} />
+    ))}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+      {siteConfig.work.slice(1, 5).map((work, i) => (
+        <FeaturedWorkEmbed work={work} locale={locale} index={i + 1} />
+      ))}
+    </div>
+    <div class="mt-10 text-center sm:hidden">
+      <Button href={localePath(locale, '/work')} variant="secondary">
+        {t(locale, 'featuredWork.viewAll')} →
+      </Button>
+    </div>
+  </Section>
+
+  <FoundersBanner locale={locale} />
+
+  <section class="section-cream section-padding px-6 lg:px-8">
+    <div class="mx-auto max-w-7xl">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
+        <div class="space-y-0">
+          <ServiceCard
+            title={t(locale, 'services.items.author.title')}
+            subtitle={t(locale, 'services.items.author.subtitle')}
+            items={tArray(locale, 'services.items.author.list')}
+            index={0}
+          />
+          <ServiceCard
+            title={t(locale, 'services.items.direct.title')}
+            subtitle={t(locale, 'services.items.direct.subtitle')}
+            items={tArray(locale, 'services.items.direct.list')}
+            index={1}
+          />
+          <ServiceCard
+            title={t(locale, 'services.items.share.title')}
+            subtitle={t(locale, 'services.items.share.subtitle')}
+            items={tArray(locale, 'services.items.share.list')}
+            index={2}
+          />
+        </div>
+        <div class="hidden lg:block relative rounded-xl overflow-hidden">
+          <img src="/wrap/images/hero-poster.svg" alt="" class="w-full h-full object-cover sticky top-24" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <TestimonialCarousel locale={locale} />
+  <CTASection locale={locale} />
+  <RevealOnScroll />
+</BaseLayout>

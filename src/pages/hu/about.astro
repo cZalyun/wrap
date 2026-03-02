@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/Section.astro';
+import CTASection from '../../components/CTASection.astro';
+import RevealOnScroll from '../../components/RevealOnScroll.astro';
+import { siteConfig, getLocalizedString } from '../../content/site.config';
+import { t } from '../../i18n/utils';
+
+const locale = 'hu';
+const processSteps = ['vision', 'creation', 'refinement'] as const;
+---
+
+<BaseLayout title={t(locale, 'about.pageTitle')} locale={locale}>
+  <div class="pt-20"></div>
+  <Section>
+    <div class="mb-16 reveal-on-scroll">
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-display font-semibold">{t(locale, 'about.pageTitle')}</h1>
+      <p class="text-base md:text-lg opacity-50 mt-4 max-w-2xl">{t(locale, 'about.pageSubtitle')}</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-24">
+      {siteConfig.team.map((member, i) => (
+        <div class="reveal-on-scroll" style={`animation-delay: ${i * 0.15}s`}>
+          <div class="relative aspect-[3/4] rounded-xl overflow-hidden mb-6 border theme-border">
+            <img
+              src={`/wrap${member.image}`}
+              alt={member.name}
+              width="600"
+              height="800"
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <h2 class="text-xl md:text-2xl font-display font-semibold">{member.name}</h2>
+          <p class="text-sm uppercase tracking-display opacity-50 mt-1">{getLocalizedString(member.role, locale)}</p>
+          <p class="text-sm opacity-60 leading-relaxed mt-4 max-w-md">{getLocalizedString(member.bio, locale)}</p>
+        </div>
+      ))}
+    </div>
+
+    <div class="max-w-3xl mb-24 reveal-on-scroll">
+      <h2 class="text-2xl md:text-3xl font-display font-semibold mb-6">{t(locale, 'about.storyTitle')}</h2>
+      <p class="text-sm md:text-base opacity-60 leading-relaxed">
+        Ami a vizuális történetmesélés iránti közös szenvedélyként indult, kontinenseken átívelő kreatív partnerséggé nőtte ki magát. Ma a Wrap Studios butik kreatív ügynökségként működik, amelyet az innováció, a technikai kiválóság és a megrendítő történetmesélés iránti elkötelezettség határoz meg.
+      </p>
+    </div>
+
+    <div class="reveal-on-scroll">
+      <h2 class="text-2xl md:text-3xl font-display font-semibold mb-12">{t(locale, 'about.processTitle')}</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {processSteps.map((step, i) => (
+          <div class="relative pl-8 border-l theme-border reveal-on-scroll" style={`animation-delay: ${i * 0.15}s`}>
+            <span class="absolute left-0 top-0 -translate-x-1/2 w-3 h-3 rounded-full bg-accent"></span>
+            <p class="text-xs uppercase tracking-display opacity-40 mb-2">0{i + 1}</p>
+            <h3 class="text-lg font-display font-semibold mb-3">{t(locale, `about.process.${step}.title`)}</h3>
+            <p class="text-sm opacity-60 leading-relaxed">{t(locale, `about.process.${step}.description`)}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </Section>
+  <CTASection locale={locale} />
+  <RevealOnScroll />
+</BaseLayout>

@@ -1,0 +1,90 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '../components/Section.astro';
+import ContactCard from '../components/ContactCard.astro';
+import RevealOnScroll from '../components/RevealOnScroll.astro';
+import { siteConfig } from '../content/site.config';
+import { t } from '../i18n/utils';
+
+const locale = 'en';
+const primaryEmail = siteConfig.team[0].emailParts;
+---
+
+<BaseLayout title={t(locale, 'contact.pageTitle')} locale={locale}>
+  <div class="pt-20"></div>
+  <Section>
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-16 reveal-on-scroll">
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-display font-semibold mb-4">{t(locale, 'contact.pageTitle')}</h1>
+        <p class="text-base md:text-lg opacity-50 max-w-xl mx-auto">{t(locale, 'contact.pageSubtitle')}</p>
+      </div>
+
+      <!-- Email form — opens default email client -->
+      <div class="max-w-xl mx-auto mb-20 reveal-on-scroll">
+        <h2 class="text-lg font-display font-semibold mb-1">{t(locale, 'contact.formTitle')}</h2>
+        <p class="text-xs opacity-40 mb-6">{t(locale, 'contact.formSubtitle')}</p>
+
+        <form id="contact-form" class="space-y-4" data-ep={JSON.stringify(primaryEmail)}>
+          <div>
+            <input
+              type="text"
+              id="cf-name"
+              placeholder={t(locale, 'contact.formName')}
+              class="w-full px-4 py-3 rounded-lg border theme-border bg-transparent text-sm placeholder:opacity-40 focus:outline-none focus:border-accent/50 transition-colors"
+            />
+          </div>
+          <div>
+            <input
+              type="text"
+              id="cf-subject"
+              placeholder={t(locale, 'contact.formSubject')}
+              class="w-full px-4 py-3 rounded-lg border theme-border bg-transparent text-sm placeholder:opacity-40 focus:outline-none focus:border-accent/50 transition-colors"
+            />
+          </div>
+          <div>
+            <textarea
+              id="cf-message"
+              rows="5"
+              placeholder={t(locale, 'contact.formMessage')}
+              class="w-full px-4 py-3 rounded-lg border theme-border bg-transparent text-sm placeholder:opacity-40 focus:outline-none focus:border-accent/50 transition-colors resize-none"
+            ></textarea>
+          </div>
+          <button
+            type="submit"
+            class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-accent text-black text-sm font-medium hover:bg-accent-hover transition-colors cursor-pointer"
+          >
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
+            </svg>
+            {t(locale, 'contact.formSend')}
+          </button>
+        </form>
+      </div>
+
+      <!-- Team contact cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+        {siteConfig.team.map((member) => (
+          <ContactCard member={member} locale={locale} />
+        ))}
+      </div>
+
+      <!-- Socials -->
+      <div class="mt-16 text-center reveal-on-scroll">
+        <p class="text-xs uppercase tracking-display opacity-40 mb-6">{t(locale, 'footer.socials')}</p>
+        <div class="flex items-center justify-center gap-6">
+          {siteConfig.socials.map((social) => (
+            <a
+              href={social.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-sm opacity-50 hover:opacity-100 hover:text-accent transition-all duration-300"
+            >
+              {social.name}
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </Section>
+  <RevealOnScroll />
+</BaseLayout>

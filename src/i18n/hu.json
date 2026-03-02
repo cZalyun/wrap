@@ -1,0 +1,118 @@
+{
+  "nav": {
+    "home": "Főoldal",
+    "work": "Munkáink",
+    "about": "Rólunk",
+    "contact": "Kapcsolat"
+  },
+  "hero": {
+    "heading": "ÚTTÖRŐK A MÁRKA TÖRTÉNETMESÉLÉSBEN",
+    "title": "Szándékkal alkotva.",
+    "subtitle": "Filmes márkafilmeket készítünk, amelyek megmozgatják a közönséget és emelik a márkákat.",
+    "cta": "Munkáink megtekintése"
+  },
+  "definition": {
+    "word": "wrap",
+    "type": "főnév",
+    "phonetic": "/ ræp /",
+    "meaning": "A kreatív vízió betetőzése — ahol a koncepció, a mesterség és a történet egy kész műben találkozik. A filmben a 'that's a wrap' jelzi azt a pillanatot, amikor a művészet teljessé válik."
+  },
+  "services": {
+    "title": "Szolgáltatásaink",
+    "items": {
+      "author": {
+        "title": "Alkotunk.",
+        "subtitle": "Lélekből fakadó történetek.",
+        "list": ["Koncepciófejlesztés & Ötletelés", "Kreatív irányítás", "Vizuális identitás & Hangvétel"]
+      },
+      "direct": {
+        "title": "Rendezünk.",
+        "subtitle": "Minden képkocka érzéssel.",
+        "list": ["Forgatókönyvírás & Storyboard", "Teljes körű videógyártás", "Vágás & Utómunka"]
+      },
+      "share": {
+        "title": "Közvetítünk.",
+        "subtitle": "Kapcsolódásra alkotva.",
+        "list": ["Kampánystratégia & Menedzsment", "Tartalom optimalizálás", "Közösségi elköteleződés"]
+      }
+    }
+  },
+  "featuredWork": {
+    "title": "Kiemelt munkák",
+    "subtitle": "Válogatás a portfóliónkból",
+    "viewProject": "Projekt megtekintése",
+    "viewAll": "Összes munka"
+  },
+  "testimonials": {
+    "title": "Vélemények",
+    "subtitle": "Ügyfeleink mondták"
+  },
+  "about": {
+    "pageTitle": "Rólunk.",
+    "pageSubtitle": "Filmes alkotók alapították. A történet hajtja.",
+    "storyTitle": "Történetünk",
+    "processTitle": "Folyamatunk",
+    "process": {
+      "vision": {
+        "title": "Vízió & Stratégia",
+        "description": "Minden nagyszerű történet egy merész ötlettel kezdődik. Szorosan együttműködünk, hogy finomítsuk az elképzeléseidet."
+      },
+      "creation": {
+        "title": "Alkotás & Kivitelezés",
+        "description": "A forgatókönyvtől a vászonig életre keltjük a víziód. Csapatunk ötvözi a művészetet és a precizitást."
+      },
+      "refinement": {
+        "title": "Finomítás & Hatás",
+        "description": "Szakértő vágással, dinamikus tempóval és zökkenőmentes átmenetekkel finomítunk minden képkockát."
+      }
+    }
+  },
+  "contact": {
+    "pageTitle": "Beszéljünk.",
+    "pageSubtitle": "Van valami az eszedben? Szívesen hallanánk a projektedről.",
+    "copyEmail": "Email másolása",
+    "sendEmail": "Email küldése",
+    "call": "Hívás",
+    "emailCopied": "Másolva!",
+    "callNow": "Hívás",
+    "formTitle": "Küldj üzenetet",
+    "formSubtitle": "Ez megnyitja az alapértelmezett email alkalmazásodat.",
+    "formName": "Neved",
+    "formSubject": "Tárgy",
+    "formMessage": "Üzeneted...",
+    "formSend": "Üzenet küldése"
+  },
+  "cta": {
+    "title": "Van valami az eszedben?",
+    "subtitle": "Alkossunk együtt valami rendkívülit.",
+    "button": "Kapcsolatfelvétel"
+  },
+  "footer": {
+    "tagline": "Több mint egy stúdió.",
+    "navigation": "Navigáció",
+    "socials": "Közösségi média",
+    "legal": "Jogi információk",
+    "privacy": "Adatvédelmi irányelvek",
+    "terms": "Általános Szerződési Feltételek",
+    "copyright": "© {year} Wrap Studios. Minden jog fenntartva."
+  },
+  "work": {
+    "pageTitle": "Munkáink.",
+    "pageSubtitle": "Válogatás filmes projektjeinkből.",
+    "role": "Szerep",
+    "year": "Év",
+    "backToWork": "← Vissza a munkákhoz"
+  },
+  "theme": {
+    "light": "Világos mód",
+    "dark": "Sötét mód"
+  },
+  "lang": {
+    "switchTo": "English"
+  },
+  "meta": {
+    "siteTitle": "Wrap Studios",
+    "siteDescription": "Díjnyertes kreatív stúdió, amely filmes márkafilmeket és vizuális történeteket készít.",
+    "ogImage": "/images/og-default.jpg"
+  }
+}

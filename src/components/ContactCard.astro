@@ -1,0 +1,54 @@
+---
+import { getLocalizedString, type TeamMember } from '../content/site.config';
+import { t, type Locale } from '../i18n/utils';
+
+interface Props {
+  member: TeamMember;
+  locale: Locale;
+}
+
+const { member, locale } = Astro.props;
+---
+
+<div class="p-6 lg:p-8 rounded-2xl border theme-border theme-border-hover transition-all duration-300">
+  <div class="flex items-start gap-4 mb-6">
+    <div class="w-14 h-14 rounded-full overflow-hidden border theme-border flex-shrink-0">
+      <img
+        src={`/wrap${member.image}`}
+        alt={member.name}
+        width="56"
+        height="56"
+        class="w-full h-full object-cover"
+      />
+    </div>
+    <div>
+      <h3 class="text-lg font-medium">{member.name}</h3>
+      <p class="text-sm opacity-50">{getLocalizedString(member.role, locale)}</p>
+    </div>
+  </div>
+
+  <div class="space-y-3">
+    <!-- Anti-scrape email: assembled client-side, one-click opens mailto: -->
+    <button
+      class="contact-email-btn flex items-center gap-2 text-sm text-accent hover:text-accent-hover transition-colors w-full cursor-pointer"
+      data-ep={JSON.stringify(member.emailParts)}
+    >
+      <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <rect x="2" y="4" width="20" height="16" rx="2" />
+        <path d="M22 4l-10 8L2 4" />
+      </svg>
+      <span>{t(locale, 'contact.sendEmail')}</span>
+    </button>
+
+    <!-- Anti-scrape phone: assembled client-side, one-click opens tel: -->
+    <button
+      class="contact-phone-btn flex items-center gap-2 text-sm opacity-60 hover:opacity-100 transition-opacity w-full cursor-pointer"
+      data-pp={JSON.stringify(member.phoneParts)}
+    >
+      <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
+      </svg>
+      <span>{t(locale, 'contact.call')}</span>
+    </button>
+  </div>
+</div>
