@@ -42,9 +42,7 @@ const processSteps = ['vision', 'creation', 'refinement'] as const;
     <div class="max-w-3xl mb-24 reveal-on-scroll">
       <h2 class="text-2xl md:text-3xl font-display font-semibold mb-6">{t(locale, 'about.storyTitle')}</h2>
       <p class="text-sm md:text-base opacity-60 leading-relaxed">
-        {locale === 'en'
-          ? 'What started as a shared passion for visual storytelling has grown into a creative partnership spanning continents. Today, Wrap Studios operates as a boutique creative agency, defined by innovation, technical excellence, and an unwavering commitment to storytelling that moves people.'
-          : 'Ami a vizuális történetmesélés iránti közös szenvedélyként indult, kontinenseken átívelő kreatív partnerséggé nőtte ki magát. Ma a Wrap Studios butik kreatív ügynökségként működik, amelyet az innováció, a technikai kiválóság és a megrendítő történetmesélés iránti elkötelezettség határoz meg.'}
+        {t(locale, 'about.storyText')}
       </p>
     </div>
 

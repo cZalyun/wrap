@@ -43,14 +43,22 @@
     "viewProject": "Projekt megtekintése",
     "viewAll": "Összes munka"
   },
+  "trustedBy": "Megbíztak bennünk",
+  "founders": {
+    "line1": "Filmes alkotók ",
+    "em1": "alapították",
+    "line2": "A ",
+    "em2": "történet hajtja"
+  },
   "testimonials": {
     "title": "Vélemények",
-    "subtitle": "Ügyfeleink mondták"
+    "subtitle": "Mit mondanak ügyfeleink"
   },
   "about": {
     "pageTitle": "Rólunk.",
     "pageSubtitle": "Filmes alkotók alapították. A történet hajtja.",
     "storyTitle": "Történetünk",
+    "storyText": "Ami a vizuális történetmesélés iránti közös szenvedélyként indult, kontinenseken átívelő kreatív partnerséggé nőtte ki magát. Ma a Wrap Studios butik kreatív ügynökségként működik, amelyet az innováció, a technikai kiválóság és a megrendítő történetmesélés iránti elkötelezettség határoz meg.",
     "processTitle": "Folyamatunk",
     "process": {
       "vision": {

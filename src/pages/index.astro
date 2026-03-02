@@ -25,7 +25,7 @@ const locale = 'en';
   <DefinitionBlock locale={locale} />
 
   <!-- 3. Trusted By on olive bg -->
-  <BrandMarquee />
+  <BrandMarquee locale={locale} />
 
   <!-- 4. Featured Work on dark bg -->
   <Section>
@@ -81,7 +81,7 @@ const locale = 'en';
           />
         </div>
         <div class="hidden lg:block relative rounded-xl overflow-hidden">
-          <img src="/wrap/images/hero-poster.svg" alt="" class="w-full h-full object-cover sticky top-24" />
+          <img src={`/wrap${siteConfig.servicesImage}`} alt="" class="w-full h-full object-cover sticky top-24" />
         </div>
       </div>
     </div>

@@ -31,6 +31,7 @@ export interface Testimonial {
   author: string;
   company: string;
   role: LocaleString;
+  image: string;
 }
 
 export interface SocialLink {
@@ -39,10 +40,23 @@ export interface SocialLink {
   icon: string;
 }
 
+export interface LegalLink {
+  enabled: boolean;
+  url?: string; // external URL — if omitted, text is shown without a link
+}
+
 export interface SiteConfig {
   brand: string;
   tagline: LocaleString;
   heroVideo: string;
+  heroPoster: string;
+  foundersBannerImage: string;
+  servicesImage: string;
+  brands: string[];
+  legal: {
+    privacy: LegalLink;
+    terms: LegalLink;
+  };
   navigation: { key: string; path: string }[];
   work: WorkItem[];
   team: TeamMember[];
@@ -57,6 +71,14 @@ export const siteConfig: SiteConfig = {
     hu: 'Filmes történetmesélés & Márkafilmek',
   },
   heroVideo: 'https://videos.pexels.com/video-files/3571264/3571264-uhd_2560_1440_30fps.mp4',
+  heroPoster: '/images/hero-poster.svg',
+  foundersBannerImage: '/images/hero-poster.svg',
+  servicesImage: '/images/hero-poster.svg',
+  brands: ['AURORA', 'MERIDIAN', 'SOLACE', 'VANTAGE', 'ELARA', 'NEXUS', 'PRISM', 'LUMIÈRE'],
+  legal: {
+    privacy: { enabled: true, url: undefined },
+    terms: { enabled: true, url: undefined },
+  },
 
   navigation: [
     { key: 'nav.home', path: '/' },
@@ -179,6 +201,7 @@ export const siteConfig: SiteConfig = {
       author: 'Sophie Laurent',
       company: 'Aurora Technologies',
       role: { en: 'Head of Marketing', hu: 'Marketing vezető' },
+      image: '/images/work/aurora.svg',
     },
     {
       quote: {
@@ -188,6 +211,7 @@ export const siteConfig: SiteConfig = {
       author: 'James Chen',
       company: 'Meridian Motors',
       role: { en: 'Brand Director', hu: 'Márkaigazgató' },
+      image: '/images/work/meridian.svg',
     },
     {
       quote: {
@@ -197,6 +221,7 @@ export const siteConfig: SiteConfig = {
       author: 'Elena Rossi',
       company: 'Vantage',
       role: { en: 'CEO', hu: 'Vezérigazgató' },
+      image: '/images/work/solace.svg',
     },
   ],
 

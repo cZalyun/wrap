@@ -17,7 +17,7 @@ const { locale = 'en' } = Astro.props;
       loop
       playsinline
       preload="auto"
-      poster="/wrap/images/hero-poster.svg"
+      poster={`/wrap${siteConfig.heroPoster}`}
     >
       <source src={siteConfig.heroVideo} type="video/mp4" />
     </video>

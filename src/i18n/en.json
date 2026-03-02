@@ -43,6 +43,13 @@
     "viewProject": "View Project",
     "viewAll": "View All Work"
   },
+  "trustedBy": "Trusted By",
+  "founders": {
+    "line1": "Founded by ",
+    "em1": "filmmakers",
+    "line2": "Driven by ",
+    "em2": "story"
+  },
   "testimonials": {
     "title": "Reviews",
     "subtitle": "What our clients say"
@@ -51,6 +58,7 @@
     "pageTitle": "About Us.",
     "pageSubtitle": "Founded by filmmakers. Driven by story.",
     "storyTitle": "Our Story",
+    "storyText": "What started as a shared passion for visual storytelling has grown into a creative partnership spanning continents. Today, Wrap Studios operates as a boutique creative agency, defined by innovation, technical excellence, and an unwavering commitment to storytelling that moves people.",
     "processTitle": "Our Process",
     "process": {
       "vision": {

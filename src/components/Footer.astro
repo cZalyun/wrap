@@ -70,8 +70,16 @@ const copyright = t(locale, 'footer.copyright').replace('{year}', String(year));
     <div class="pt-5 border-t border-current/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
       <p class="text-xs opacity-40">{copyright}</p>
       <div class="flex gap-4 text-xs opacity-40">
-        <span>{t(locale, 'footer.privacy')}</span>
-        <span>{t(locale, 'footer.terms')}</span>
+        {siteConfig.legal.privacy.enabled && (
+          siteConfig.legal.privacy.url
+            ? <a href={siteConfig.legal.privacy.url} class="hover:opacity-70 transition-opacity">{t(locale, 'footer.privacy')}</a>
+            : <span>{t(locale, 'footer.privacy')}</span>
+        )}
+        {siteConfig.legal.terms.enabled && (
+          siteConfig.legal.terms.url
+            ? <a href={siteConfig.legal.terms.url} class="hover:opacity-70 transition-opacity">{t(locale, 'footer.terms')}</a>
+            : <span>{t(locale, 'footer.terms')}</span>
+        )}
       </div>
     </div>
   </div>

@@ -20,7 +20,7 @@ const locale = 'hu';
 <BaseLayout locale={locale}>
   <Hero locale={locale} />
   <DefinitionBlock locale={locale} />
-  <BrandMarquee />
+  <BrandMarquee locale={locale} />
 
   <Section>
     <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12 reveal-on-scroll">
@@ -73,7 +73,7 @@ const locale = 'hu';
           />
         </div>
         <div class="hidden lg:block relative rounded-xl overflow-hidden">
-          <img src="/wrap/images/hero-poster.svg" alt="" class="w-full h-full object-cover sticky top-24" />
+          <img src={`/wrap${siteConfig.servicesImage}`} alt="" class="w-full h-full object-cover sticky top-24" />
         </div>
       </div>
     </div>

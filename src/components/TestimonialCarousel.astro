@@ -46,7 +46,7 @@ const { locale = 'en' } = Astro.props;
           </blockquote>
           <div class="relative aspect-[4/3] rounded-xl overflow-hidden bg-white/5">
             <img
-              src={`/wrap/images/work/${['aurora','meridian','solace'][i % 3]}.svg`}
+              src={`/wrap${testimonial.image}`}
               alt={testimonial.company}
               class="w-full h-full object-cover"
               loading="lazy"
