@@ -51,6 +51,7 @@ export interface SiteConfig {
   brand: string;
   tagline: LocaleString;
   heroVideo: string;
+  heroVideoMobile: string;
   heroPoster: string;
   foundersBannerImage: string;
   servicesImage: string;
@@ -74,6 +75,7 @@ export const siteConfig: SiteConfig = {
   },
   // heroVideo: 'https://videos.pexels.com/video-files/3571264/3571264-uhd_2560_1440_30fps.mp4',
   heroVideo: '/images/videos/hero-video.mp4',
+  heroVideoMobile: '/images/videos/hero-video-mobile-portrait.mp4',
   heroPoster: '/images/hero-poster.svg',
   foundersBannerImage: '/images/hero-poster.svg',
   servicesImage: '/images/hero-poster.svg',

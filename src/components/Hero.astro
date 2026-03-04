@@ -27,8 +27,9 @@ const { locale = 'en' } = Astro.props;
       playsinline
       preload="auto"
       poster={`${import.meta.env.BASE_URL.replace(/\/$/, '')}${siteConfig.heroPoster}`}
+      data-src={`${import.meta.env.BASE_URL.replace(/\/$/, '')}${siteConfig.heroVideo}`}
+      data-src-mobile={`${import.meta.env.BASE_URL.replace(/\/$/, '')}${siteConfig.heroVideoMobile}`}
     >
-      <source src={`${import.meta.env.BASE_URL.replace(/\/$/, '')}${siteConfig.heroVideo}`} type="video/mp4" />
     </video>
     <!-- Dark overlay gradient — bottom-heavy for text readability -->
     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10" aria-hidden="true"></div>
@@ -68,19 +69,48 @@ const { locale = 'en' } = Astro.props;
   const poster = document.getElementById('hero-poster');
 
   if (video) {
+    const srcDesktop = video.dataset.src!;
+    const srcMobile  = video.dataset.srcMobile!;
+
+    /** Portrait-mobile breakpoint — matches CSS `md` boundary */
+    const mobilePortrait = window.matchMedia('(max-width: 767px) and (orientation: portrait)');
+
     const fadeIn = () => {
       video.style.opacity = '1';
-      // Remove poster from DOM after cross-fade completes
-      if (poster) {
-        setTimeout(() => poster.remove(), 1400);
-      }
+      if (poster) setTimeout(() => poster.remove(), 1400);
     };
 
-    // Already playing (e.g. cached): fire immediately
-    if (!video.paused) {
-      fadeIn();
-    } else {
-      video.addEventListener('playing', fadeIn, { once: true });
+    let currentSrc = '';
+
+    function loadSource(src: string): void {
+      if (src === currentSrc) return;
+      currentSrc = src;
+
+      const wasPlaying = !video!.paused;
+      video!.style.opacity = '0';
+      video!.src = src;
+      video!.load();
+
+      video!.addEventListener('playing', () => {
+        video!.style.opacity = '1';
+      }, { once: true });
+
+      if (wasPlaying) video!.play().catch(() => {});
     }
+
+    function pickSource(e: MediaQueryListEvent | MediaQueryList): void {
+      loadSource(e.matches ? srcMobile : srcDesktop);
+    }
+
+    // Initial source selection (before any fade-in listener)
+    pickSource(mobilePortrait);
+
+    video.addEventListener('playing', fadeIn, { once: true });
+
+    // Already playing (e.g. cached)
+    if (!video.paused) fadeIn();
+
+    // React to orientation / resize changes
+    mobilePortrait.addEventListener('change', pickSource);
   }
 </script>
