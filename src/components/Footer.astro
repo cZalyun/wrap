@@ -12,8 +12,9 @@ const copyright = t(locale, 'footer.copyright').replace('{year}', String(year));
 <footer class="section-cream">
   <div class="mx-auto max-w-7xl px-6 lg:px-8 py-12 md:py-20 lg:py-24">
     <!-- Logo -->
-    <a href={localePath(locale, '/')} class="text-xl font-display font-bold italic inline-block mb-8 md:mb-12">
-      {siteConfig.brand}
+    <a href={localePath(locale, '/')} class="inline-block mb-8 md:mb-12 transition-opacity hover:opacity-70" aria-label={siteConfig.brand}>
+      <img src={siteConfig.logoDark} alt={siteConfig.brand} class="logo-light-mode h-8 w-auto hidden" />
+      <img src={siteConfig.logoLight} alt={siteConfig.brand} class="logo-dark-mode h-8 w-auto" />
     </a>
 
     <!-- Main grid: 2-col on mobile, 3-col on desktop -->

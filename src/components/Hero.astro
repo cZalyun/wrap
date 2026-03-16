@@ -1,6 +1,6 @@
 ---
 import { t, localePath, type Locale } from '../i18n/utils';
-import { siteConfig } from '../content/site.config';
+import { siteConfig, getLocalizedString } from '../content/site.config';
 
 interface Props { locale?: Locale; }
 const { locale = 'en' } = Astro.props;
@@ -29,18 +29,20 @@ const { locale = 'en' } = Astro.props;
       poster={`${import.meta.env.BASE_URL.replace(/\/$/, '')}${siteConfig.heroPoster}`}
       data-src={`${import.meta.env.BASE_URL.replace(/\/$/, '')}${siteConfig.heroVideo}`}
       data-src-mobile={`${import.meta.env.BASE_URL.replace(/\/$/, '')}${siteConfig.heroVideoMobile}`}
+      data-src-hevc={siteConfig.heroVideoHEVC ? `${import.meta.env.BASE_URL.replace(/\/$/, '')}${siteConfig.heroVideoHEVC}` : undefined}
+      data-src-mobile-hevc={siteConfig.heroVideoMobileHEVC ? `${import.meta.env.BASE_URL.replace(/\/$/, '')}${siteConfig.heroVideoMobileHEVC}` : undefined}
     >
     </video>
     <!-- Dark overlay gradient — bottom-heavy for text readability -->
-    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10" aria-hidden="true"></div>
-    <div class="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent" aria-hidden="true"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-black/5" aria-hidden="true"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-black/30 to-transparent" aria-hidden="true"></div>
   </div>
 
   <!-- Content overlay — bottom-left aligned like reference -->
   <div class="relative z-10 h-full flex flex-col justify-end px-6 lg:px-12 xl:px-20 pb-16 md:pb-20 lg:pb-24">
     <div class="max-w-4xl">
       <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.5rem] font-display font-bold leading-[0.92] tracking-tight-display text-white mb-4 md:mb-6 animate-fade-in-up" style="animation-delay: 0.2s;">
-        {t(locale, 'hero.heading')}
+        {getLocalizedString(siteConfig.heroHeading, locale)}
       </h1>
       <p class="text-lg md:text-xl lg:text-2xl text-white/80 font-display italic mb-8 md:mb-10 animate-fade-in-up" style="animation-delay: 0.4s;">
         {t(locale, 'hero.title')}
@@ -71,6 +73,13 @@ const { locale = 'en' } = Astro.props;
   if (video) {
     const srcDesktop = video.dataset.src!;
     const srcMobile  = video.dataset.srcMobile!;
+    const srcDesktopHEVC = video.dataset.srcHevc;
+    const srcMobileHEVC  = video.dataset.srcMobileHevc;
+
+    /** Detect HEVC/H.265 support — hvc1 (Apple container), hev1 (raw stream), hevc (shorthand) */
+    const canPlayHEVC = !!(video.canPlayType('video/mp4; codecs="hvc1"') ||
+                           video.canPlayType('video/mp4; codecs="hev1"') ||
+                           video.canPlayType('video/mp4; codecs="hevc"'));
 
     /** Portrait-mobile breakpoint — matches CSS `md` boundary */
     const mobilePortrait = window.matchMedia('(max-width: 767px) and (orientation: portrait)');
@@ -81,10 +90,17 @@ const { locale = 'en' } = Astro.props;
     };
 
     let currentSrc = '';
+    let stallTimer: ReturnType<typeof setTimeout> | null = null;
 
-    function loadSource(src: string): void {
+    function loadSource(src: string, mobile: boolean): void {
       if (src === currentSrc) return;
+
+      /** Cancel any in-flight stall timer from a previous load attempt */
+      if (stallTimer) { clearTimeout(stallTimer); stallTimer = null; }
+
       currentSrc = src;
+      const h264 = mobile ? srcMobile : srcDesktop;
+      const isHevc = src !== h264;
 
       const wasPlaying = !video!.paused;
       video!.style.opacity = '0';
@@ -93,13 +109,33 @@ const { locale = 'en' } = Astro.props;
 
       video!.addEventListener('playing', () => {
         video!.style.opacity = '1';
+        if (stallTimer) { clearTimeout(stallTimer); stallTimer = null; }
       }, { once: true });
 
       if (wasPlaying) video!.play().catch(() => {});
+
+      /** Error fallback: 404 or MEDIA_ERR_DECODE → load H.264 */
+      video!.addEventListener('error', () => {
+        if (stallTimer) { clearTimeout(stallTimer); stallTimer = null; }
+        if (video!.src !== h264) loadSource(h264, mobile);
+      }, { once: true });
+
+      /** Stall guard: canPlayType() can return "maybe" and then never decode.
+       *  If readyState < HAVE_FUTURE_DATA (3) after 5 s, bail to H.264. */
+      if (isHevc) {
+        stallTimer = setTimeout(() => {
+          stallTimer = null;
+          if (video!.readyState < 3) loadSource(h264, mobile);
+        }, 5000);
+      }
     }
 
     function pickSource(e: MediaQueryListEvent | MediaQueryList): void {
-      loadSource(e.matches ? srcMobile : srcDesktop);
+      const mobile = e.matches;
+      const src = mobile
+        ? (canPlayHEVC && srcMobileHEVC ? srcMobileHEVC : srcMobile)
+        : (canPlayHEVC && srcDesktopHEVC ? srcDesktopHEVC : srcDesktop);
+      loadSource(src, mobile);
     }
 
     // Initial source selection (before any fade-in listener)

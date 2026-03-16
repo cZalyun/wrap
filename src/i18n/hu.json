@@ -58,7 +58,7 @@
     "pageTitle": "Rólunk.",
     "pageSubtitle": "Filmes alkotók alapították. A történet hajtja.",
     "storyTitle": "Történetünk",
-    "storyText": "Ami a vizuális történetmesélés iránti közös szenvedélyként indult, kontinenseken átívelő kreatív partnerséggé nőtte ki magát. Ma a Wrap Studios butik kreatív ügynökségként működik, amelyet az innováció, a technikai kiválóság és a megrendítő történetmesélés iránti elkötelezettség határoz meg.",
+    "storyText": "Ami a vizuális történetmesélés iránti közös szenvedélyként indult, kontinenseken átívelő kreatív partnerséggé nőtte ki magát. Ma a Wrap Film Factory butik kreatív stúdióként működik, amelyet a merész vizuálok, az egyértelmű szándék és a nézőkkel maradó történetek iránti elkötelezettség határoz meg.",
     "processTitle": "Folyamatunk",
     "process": {
       "vision": {
@@ -102,14 +102,15 @@
     "legal": "Jogi információk",
     "privacy": "Adatvédelmi irányelvek",
     "terms": "Általános Szerződési Feltételek",
-    "copyright": "© {year} Wrap Studios. Minden jog fenntartva."
+    "copyright": "© {year} Wrap Film Factory. Minden jog fenntartva."
   },
   "work": {
     "pageTitle": "Munkáink.",
     "pageSubtitle": "Válogatás filmes projektjeinkből.",
     "role": "Szerep",
     "year": "Év",
-    "backToWork": "← Vissza a munkákhoz"
+    "backToWork": "← Vissza a munkákhoz",
+    "comingSoon": "Projektek hamarosan."
   },
   "theme": {
     "light": "Világos mód",
@@ -119,8 +120,8 @@
     "switchTo": "English"
   },
   "meta": {
-    "siteTitle": "Wrap Studios",
-    "siteDescription": "Díjnyertes kreatív stúdió, amely filmes márkafilmeket és vizuális történeteket készít.",
+    "siteTitle": "Wrap Film Factory",
+    "siteDescription": "Wrap Film Factory — merész filmes márkafilmek, szándékkal alkotva. Nagy hatású vizuális történeteket készítünk, amelyek a nézőkkel maradnak.",
     "ogImage": "/images/og-default.jpg"
   }
 }

@@ -50,12 +50,27 @@ export interface LegalLink {
 export interface SiteConfig {
   brand: string;
   tagline: LocaleString;
+  /** White/light logo — use on dark backgrounds (dark mode, hero) */
+  logoLight: string;
+  /** Black/dark logo — use on light backgrounds (light mode) */
+  logoDark: string;
+  /** Icon-only mark without "Film Factory" text — used in the intro/definition block */
+  logoIcon: string;
   heroVideo: string;
   heroVideoMobile: string;
+  /** Optional HEVC/H.265 encoded version — served only to browsers that support it */
+  heroVideoHEVC?: string;
+  heroVideoMobileHEVC?: string;
   heroPoster: string;
+  heroHeading: LocaleString;
+  introText: LocaleString;
   foundersBannerImage: string;
   servicesImage: string;
-  brands: string[];
+  brands: { name: string; image: string }[];
+  contactPageTitle: LocaleString;
+  contactPageSubtitle: LocaleString;
+  /** Anti-scrape general contact email: [user, domain, tld] */
+  contactEmail: [string, string, string];
   legal: {
     privacy: LegalLink;
     terms: LegalLink;
@@ -68,18 +83,45 @@ export interface SiteConfig {
 }
 
 export const siteConfig: SiteConfig = {
-  brand: 'Wrap Studios',
+  brand: 'Wrap Film Factory',
   tagline: {
     en: 'Cinematic Storytelling & Brand Films',
     hu: 'Filmes történetmesélés & Márkafilmek',
   },
+  logoLight: '/images/logo-white.png',
+  logoDark: '/images/logo-black.png',
+  logoIcon: '/images/logo-icon.jpg',
   // heroVideo: 'https://videos.pexels.com/video-files/3571264/3571264-uhd_2560_1440_30fps.mp4',
   heroVideo: '/images/videos/hero-video.mp4',
   heroVideoMobile: '/images/videos/hero-video-mobile-portrait.mp4',
+  heroVideoHEVC: '/images/videos/hero-video.hevc.mp4',
+  heroVideoMobileHEVC: '/images/videos/hero-video-mobile.hevc.mp4',
   heroPoster: '/images/hero-poster.svg',
+  heroHeading: {
+    en: 'BRAND STORYTELLING IN MOTION',
+    hu: 'BRAND STORYTELLING IN MOTION',
+  },
+  introText: {
+    en: 'Where concept meets craft. We create high-impact films designed to stay with the audience. Bold visuals, clear intent, and zero fluff. This is how your story should look.\n\nWhen we say "it\'s a wrap," it means your vision has finally come to life.',
+    hu: 'Ahol a koncepció találkozik a mesterséggel. Nagy hatású filmeket készítünk, amelyek a nézőkkel maradnak. Merész vizuálok, egyértelmű szándék, felesleges tartalom nélkül. Így kellene kinéznie a te történetednek.\n\nAmikor azt mondjuk: "it\'s a wrap" — a te víziód végre életre kelt.',
+  },
   foundersBannerImage: '/images/hero-poster.svg',
   servicesImage: '/images/hero-poster.svg',
-  brands: ['AURORA', 'MERIDIAN', 'SOLACE', 'VANTAGE', 'ELARA', 'NEXUS', 'PRISM', 'LUMIÈRE'],
+  brands: [
+    { name: 'AutoWallis Group', image: '/images/brands/AutoWallisGroup_LOGO_CMYK.png' },
+    { name: 'NFI – Nemzeti Filmintézet', image: '/images/brands/NFI_alap_BLACK_HU.png' },
+    { name: 'Magyar Autóklub', image: '/images/brands/magyar_autoklub_logo.png' },
+    { name: 'Müpa Budapest', image: '/images/brands/mupa_logo_2020.png' },
+  ],
+  contactPageTitle: {
+    en: 'Your story. Our wrap.',
+    hu: 'A te történeted. A mi wrapünk.',
+  },
+  contactPageSubtitle: {
+    en: 'Have a project in mind or just want to connect?\nDrop us a message — we\'d love to hear from you.',
+    hu: 'Van egy projekted, vagy csak kapcsolatba szeretnél lépni?\nKüldj üzenetet — szívesen halljuk.',
+  },
+  contactEmail: ['hello', 'wrapfilm', 'hu'],
   legal: {
     privacy: { enabled: true, url: undefined },
     terms: { enabled: true, url: undefined },
@@ -93,6 +135,7 @@ export const siteConfig: SiteConfig = {
   ],
 
   work: [
+   /*
     {
       slug: 'aurora-campaign',
       title: { en: 'Aurora Campaign', hu: 'Aurora Kampány' },
@@ -170,9 +213,11 @@ export const siteConfig: SiteConfig = {
       year: 2023,
       role: { en: 'Creative & Production', hu: 'Kreatív & Gyártás' },
     },
+    */
   ],
 
   team: [
+    /*
     {
       name: 'Alex Kovács',
       role: { en: 'Co-Founder & Creative Director', hu: 'Társalapító & Kreatív igazgató' },
@@ -182,7 +227,7 @@ export const siteConfig: SiteConfig = {
       },
       image: '/images/team/alex.svg',
       phoneParts: ['+36', '30', '123 4567'],
-      emailParts: ['alex', 'wrapstudios', 'com'],
+      emailParts: ['alex', 'wrapfilm', 'hu'],
     },
     {
       name: 'Márk Tóth',
@@ -193,15 +238,17 @@ export const siteConfig: SiteConfig = {
       },
       image: '/images/team/mark.svg',
       phoneParts: ['+36', '30', '765 4321'],
-      emailParts: ['mark', 'wrapstudios', 'com'],
+      emailParts: ['mark', 'wrapfilm', 'hu'],
     },
+    */
   ],
 
   testimonials: [
-    {
+  /* 
+   {
       quote: {
-        en: 'Working with Wrap Studios has taken our production and brand to a whole new level. They cut through the unnecessary fluff, delivering the full process from concept to post. The experience of working with a focused team who truly delivers better results has been a game changer.',
-        hu: 'A Wrap Studios-szal való munka teljesen új szintre emelte a produkciónkat és márkánkat. Átvágták a felesleges részt, és a teljes folyamatot szállították a koncepciótól az utómunkáig.',
+        en: 'Working with Wrap Film Factory has taken our production and brand to a whole new level. They cut through the unnecessary fluff, delivering the full process from concept to post. The experience of working with a focused team who truly delivers better results has been a game changer.',
+        hu: 'A Wrap Film Factory-val való munka teljesen új szintre emelte a produkciónkat és márkánkat. Átvágták a felesleges részt, és a teljes folyamatot szállították a koncepciótól az utómunkáig.',
       },
       author: 'Sophie Laurent',
       company: 'Aurora Technologies',
@@ -210,8 +257,8 @@ export const siteConfig: SiteConfig = {
     },
     {
       quote: {
-        en: 'Working with Wrap Studios was seamless, even from across the globe. They understood our brand and vision right away, and delivered a cinematic, high-quality video that exceeded expectations. Communication was clear and easy throughout.',
-        hu: 'A Wrap Studios-szal való munka zökkenőmentes volt, még a világ túlfeléről is. Azonnal megértették a márkánkat és a víziónkat, és egy filmes, kiváló minőségű videót szállítottak, ami felülmúlta az elvárásainkat.',
+        en: 'Working with Wrap Film Factory was seamless, even from across the globe. They understood our brand and vision right away, and delivered a cinematic, high-quality video that exceeded expectations. Communication was clear and easy throughout.',
+        hu: 'A Wrap Film Factory-val való munka zökkenőmentes volt, még a világ túlfeléről is. Azonnal megértették a márkánkat és a víziónkat, és egy filmes, kiváló minőségű videót szállítottak, ami felülmúlta az elvárásainkat.',
       },
       author: 'James Chen',
       company: 'Meridian Motors',
@@ -228,13 +275,13 @@ export const siteConfig: SiteConfig = {
       role: { en: 'CEO', hu: 'Vezérigazgató' },
       image: '/images/work/solace.svg',
     },
+    */
   ],
 
   socials: [
-    { name: 'Instagram', url: 'https://instagram.com', icon: 'instagram' },
-    { name: 'Vimeo', url: 'https://vimeo.com', icon: 'vimeo' },
-    { name: 'YouTube', url: 'https://youtube.com', icon: 'youtube' },
-    { name: 'LinkedIn', url: 'https://linkedin.com', icon: 'linkedin' },
+    { name: 'Facebook', url: 'https://www.facebook.com/profile.php?id=61586592434128', icon: 'facebook' },
+    { name: 'Instagram', url: 'https://www.instagram.com/wrapfilmfactory/', icon: 'instagram' },
+    { name: 'YouTube', url: 'https://www.youtube.com/@Wrapfilmfactory', icon: 'youtube' },
   ],
 };
 

@@ -3,26 +3,32 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Section from '../../components/Section.astro';
 import ContactCard from '../../components/ContactCard.astro';
 import RevealOnScroll from '../../components/RevealOnScroll.astro';
-import { siteConfig } from '../../content/site.config';
+import { siteConfig, getLocalizedString } from '../../content/site.config';
 import { t } from '../../i18n/utils';
 
 const locale = 'hu';
-const primaryEmail = siteConfig.team[0].emailParts;
+const contactTitle = getLocalizedString(siteConfig.contactPageTitle, locale);
+const contactSubtitle = getLocalizedString(siteConfig.contactPageSubtitle, locale);
 ---
 
-<BaseLayout title={t(locale, 'contact.pageTitle')} description={t(locale, 'contact.pageSubtitle')} locale={locale}>
+<BaseLayout title={contactTitle} description={contactSubtitle} locale={locale}>
   <div class="pt-20"></div>
   <Section>
     <div class="max-w-4xl mx-auto">
       <div class="text-center mb-16 reveal-on-scroll">
-        <h1 class="text-4xl md:text-5xl lg:text-6xl font-display font-semibold mb-4">{t(locale, 'contact.pageTitle')}</h1>
-        <p class="text-base md:text-lg opacity-50 max-w-xl mx-auto">{t(locale, 'contact.pageSubtitle')}</p>
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-display font-semibold mb-4">{contactTitle}</h1>
+        <p class="text-base md:text-lg opacity-50 max-w-xl mx-auto whitespace-pre-line">{contactSubtitle}</p>
+        <p class="text-sm opacity-40 mt-3">
+          <button class="contact-email-btn underline underline-offset-2 hover:opacity-70 transition-opacity cursor-pointer" data-ep={JSON.stringify(siteConfig.contactEmail)}>
+            {siteConfig.contactEmail[0]}@{siteConfig.contactEmail[1]}.{siteConfig.contactEmail[2]}
+          </button>
+        </p>
       </div>
 
       <div class="max-w-xl mx-auto mb-20 reveal-on-scroll">
         <h2 class="text-lg font-display font-semibold mb-1">{t(locale, 'contact.formTitle')}</h2>
         <p class="text-xs opacity-40 mb-6">{t(locale, 'contact.formSubtitle')}</p>
-        <form id="contact-form" class="space-y-4" data-ep={JSON.stringify(primaryEmail)}>
+        <form id="contact-form" class="space-y-4" data-ep={JSON.stringify(siteConfig.contactEmail)}>
           <div>
             <input type="text" id="cf-name" placeholder={t(locale, 'contact.formName')} class="w-full px-4 py-3 rounded-lg border theme-border bg-transparent text-sm placeholder:opacity-60 focus:outline-none focus:border-accent/50 transition-colors" />
           </div>

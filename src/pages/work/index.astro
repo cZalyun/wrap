@@ -18,11 +18,15 @@ const locale = 'en';
       <h1 class="text-4xl md:text-5xl lg:text-6xl font-display font-semibold">{t(locale, 'work.pageTitle')}</h1>
       <p class="text-base md:text-lg opacity-50 mt-4 max-w-2xl">{t(locale, 'work.pageSubtitle')}</p>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {siteConfig.work.map((work, i) => (
-        <FeaturedWorkEmbed work={work} locale={locale} index={i} />
-      ))}
-    </div>
+    {siteConfig.work.length > 0 ? (
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {siteConfig.work.map((work, i) => (
+          <FeaturedWorkEmbed work={work} locale={locale} index={i} />
+        ))}
+      </div>
+    ) : (
+      <p class="opacity-40 text-sm mt-4">{t(locale, 'work.comingSoon')}</p>
+    )}
   </Section>
   <CTASection locale={locale} />
   <RevealOnScroll />

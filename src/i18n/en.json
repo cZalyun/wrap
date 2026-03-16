@@ -58,7 +58,7 @@
     "pageTitle": "About Us.",
     "pageSubtitle": "Founded by filmmakers. Driven by story.",
     "storyTitle": "Our Story",
-    "storyText": "What started as a shared passion for visual storytelling has grown into a creative partnership spanning continents. Today, Wrap Studios operates as a boutique creative agency, defined by innovation, technical excellence, and an unwavering commitment to storytelling that moves people.",
+    "storyText": "What started as a shared passion for visual storytelling has grown into a creative partnership spanning continents. Today, Wrap Film Factory operates as a boutique creative studio, defined by bold visuals, clear intent, and an unwavering commitment to stories that stay with the audience.",
     "processTitle": "Our Process",
     "process": {
       "vision": {
@@ -102,14 +102,15 @@
     "legal": "Legal",
     "privacy": "Privacy Policy",
     "terms": "Terms & Conditions",
-    "copyright": "© {year} Wrap Studios. All rights reserved."
+    "copyright": "© {year} Wrap Film Factory. All rights reserved."
   },
   "work": {
     "pageTitle": "Our Work.",
     "pageSubtitle": "A curated selection of our cinematic projects.",
     "role": "Role",
     "year": "Year",
-    "backToWork": "← Back to Work"
+    "backToWork": "← Back to Work",
+    "comingSoon": "Projects coming soon."
   },
   "theme": {
     "light": "Light mode",
@@ -119,8 +120,8 @@
     "switchTo": "Magyar"
   },
   "meta": {
-    "siteTitle": "Wrap Studios",
-    "siteDescription": "Award-winning creative studio crafting cinematic brand films and visual stories that move audiences and elevate brands.",
+    "siteTitle": "Wrap Film Factory",
+    "siteDescription": "Wrap Film Factory — bold cinematic brand films crafted with intent. We create high-impact visual stories that stay with the audience.",
     "ogImage": "/images/og-default.jpg"
   }
 }
