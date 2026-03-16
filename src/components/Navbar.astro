@@ -65,6 +65,11 @@ const { locale = 'en' } = Astro.props;
   </div>
 </div>
 
+<style>
+  #navbar.navbar-menu-open .logo-dark-mode  { display: block !important; }
+  #navbar.navbar-menu-open .logo-light-mode { display: none  !important; }
+</style>
+
 <script is:inline>
 (function() {
   document.addEventListener('DOMContentLoaded', function() {
@@ -127,6 +132,9 @@ const { locale = 'en' } = Astro.props;
       isOpen = true;
       btn.setAttribute('aria-expanded', 'true');
       navbar.classList.add('navbar-menu-open');
+      navbar.style.backgroundColor = 'transparent';
+      navbar.style.backdropFilter = 'none';
+      navbar.style.webkitBackdropFilter = 'none';
       menu.style.pointerEvents = 'auto';
       menu.style.opacity = '1';
       document.body.style.overflow = 'hidden';
