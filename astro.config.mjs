@@ -4,10 +4,8 @@ import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://czalyun.github.io', // TODO: change when deploying to custom domain + base too
-  // base: '/',  for custom domain
-  // base: '/wrap',  for github pages
-  base: '/wrap',
+  site: 'https://wrapfilm.hu',
+  base: '/',  // custom domain — use '/wrap' for github pages
   output: 'static',
   i18n: {
     defaultLocale: 'en',

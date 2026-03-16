@@ -1,12 +1,11 @@
 /**
  * SEO configuration and helpers for Wrap Studios.
  *
- * SITE_BASE_URL must be updated when deploying to a custom domain.
  * Derived from astro.config.mjs: site + base.
  */
 
-/** Fully-qualified production base URL — no trailing slash. */ // TODO: change when deploying to custom domain
-export const SITE_BASE_URL = 'https://czalyun.github.io/wrap';
+/** Fully-qualified production base URL — no trailing slash. */
+export const SITE_BASE_URL = 'https://wrapfilm.hu';
 
 /** Site-root-relative path to the default share image (must be 1200 × 630 px JPEG/PNG). */
 export const DEFAULT_OG_IMAGE_PATH = '/images/og-default.jpg';
@@ -21,7 +20,7 @@ export const OG_IMAGE_HEIGHT = 630;
  *
  * @example
  *   absoluteUrl('/images/og-default.jpg')
- *   // → 'https://czaunpeterbence.github.io/wrap/images/og-default.jpg'
+ *   // → 'https://wrapfilm.hu/images/og-default.jpg'
  */
 export function absoluteUrl(path: string): string {
   if (path.startsWith('http://') || path.startsWith('https://')) return path;
