@@ -17,24 +17,21 @@
     "phonetic": "/ ræp /",
     "meaning": "A kreatív vízió betetőzése — ahol a koncepció, a mesterség és a történet egy kész műben találkozik. A filmben a 'that's a wrap' jelzi azt a pillanatot, amikor a művészet teljessé válik."
   },
-  "services": {
-    "title": "Szolgáltatásaink",
-    "items": {
-      "author": {
-        "title": "Alkotunk.",
-        "subtitle": "Lélekből fakadó történetek.",
-        "list": ["Koncepciófejlesztés & Ötletelés", "Kreatív irányítás", "Vizuális identitás & Hangvétel"]
-      },
-      "direct": {
-        "title": "Rendezünk.",
-        "subtitle": "Minden képkocka érzéssel.",
-        "list": ["Forgatókönyvírás & Storyboard", "Teljes körű videógyártás", "Vágás & Utómunka"]
-      },
-      "share": {
-        "title": "Közvetítünk.",
-        "subtitle": "Kapcsolódásra alkotva.",
-        "list": ["Kampánystratégia & Menedzsment", "Tartalom optimalizálás", "Közösségi elköteleződés"]
-      }
+  "process": {
+    "ready": {
+      "label": "READY",
+      "subtitle": "Az ötletek formát öltenek, mielőtt a kamera gurulna.",
+      "items": ["Projektfejlesztés & Előkészítés", "Kreatív tervezés & Ütemezés", "Produkciómenedzsment & Koordináció"]
+    },
+    "set": {
+      "label": "SET",
+      "subtitle": "A vízió életre kel, képkockáról képkockára.",
+      "items": ["Helyszíni rendezés & Forgatás", "Operatőri munka & Világítás", "Teljes körű produkciós kivitelezés"]
+    },
+    "wrap": {
+      "label": "WRAP",
+      "subtitle": "A végső történet tökélyre alakítása.",
+      "items": ["Vágás & Utómunka", "Színgrádolás & Hangdesign", "Végső szállítás & Formátum-optimalizálás"]
     }
   },
   "featuredWork": {
@@ -91,8 +88,8 @@
     "formSend": "Üzenet küldése"
   },
   "cta": {
-    "title": "Van valami az eszedben?",
-    "subtitle": "Alkossunk együtt valami rendkívülit.",
+    "title": "A te történeted. A mi wrap-ünk.",
+    "subtitle": "Van egy projekted, vagy csak szeretnél kapcsolatba lépni? Írj nekünk — szívesen halljuk.",
     "button": "Kapcsolatfelvétel"
   },
   "footer": {
@@ -102,6 +99,8 @@
     "legal": "Jogi információk",
     "privacy": "Adatvédelmi irányelvek",
     "terms": "Általános Szerződési Feltételek",
+    "ourOffice": "Irodánk",
+    "address": "Budapest, Törökvész út 3/a, 1025",
     "copyright": "© {year} Wrap Film Factory. Minden jog fenntartva."
   },
   "work": {

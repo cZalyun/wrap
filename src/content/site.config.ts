@@ -48,6 +48,8 @@ export interface LegalLink {
 }
 
 export interface SiteConfig {
+  /** When true, locks the site to English only and hides the language switcher */
+  singleLocale?: boolean;
   brand: string;
   tagline: LocaleString;
   /** White/light logo — use on dark backgrounds (dark mode, hero) */
@@ -83,10 +85,11 @@ export interface SiteConfig {
 }
 
 export const siteConfig: SiteConfig = {
+  singleLocale: true,
   brand: 'Wrap Film Factory',
   tagline: {
-    en: 'Cinematic Storytelling & Brand Films',
-    hu: 'Filmes történetmesélés & Márkafilmek',
+    en: 'Brand Storytelling in Motion',
+    hu: 'Brand Storytelling in Motion',
   },
   logoLight: '/images/logo-white.png',
   logoDark: '/images/logo-black.png',
@@ -98,8 +101,8 @@ export const siteConfig: SiteConfig = {
   heroVideoMobileHEVC: '/images/videos/hero-video-mobile.hevc.mp4',
   heroPoster: '/images/hero-poster.svg',
   heroHeading: {
-    en: 'BRAND STORYTELLING IN MOTION',
-    hu: 'BRAND STORYTELLING IN MOTION',
+    en: 'BRAND STORYTELLING IN MOTION',
+    hu: 'BRAND STORYTELLING IN MOTION',
   },
   introText: {
     en: 'Where concept meets craft. We create high-impact films designed to stay with the audience. Bold visuals, clear intent, and zero fluff. This is how your story should look.\n\nWhen we say "it\'s a wrap," it means your vision has finally come to life.',

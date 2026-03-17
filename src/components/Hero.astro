@@ -44,10 +44,7 @@ const { locale = 'en' } = Astro.props;
       <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.5rem] font-display font-bold leading-[0.92] tracking-tight-display text-white mb-4 md:mb-6 animate-fade-in-up" style="animation-delay: 0.2s;">
         {getLocalizedString(siteConfig.heroHeading, locale)}
       </h1>
-      <p class="text-lg md:text-xl lg:text-2xl text-white/80 font-display italic mb-8 md:mb-10 animate-fade-in-up" style="animation-delay: 0.4s;">
-        {t(locale, 'hero.title')}
-      </p>
-      <div class="animate-fade-in-up" style="animation-delay: 0.6s;">
+      <div class="animate-fade-in-up" style="animation-delay: 0.4s;">
         <a
           href={localePath(locale, '/contact')}
           class="inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-white/30 text-white text-sm uppercase tracking-display font-medium hover:bg-white hover:text-black transition-all duration-300"

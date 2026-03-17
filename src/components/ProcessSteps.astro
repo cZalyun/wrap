@@ -1,0 +1,33 @@
+---
+import { t, tArray, type Locale } from '../i18n/utils';
+
+interface Props { locale?: Locale; }
+const { locale = 'en' } = Astro.props;
+
+const phases = ['ready', 'set', 'wrap'] as const;
+---
+
+<div class="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-current/10">
+  {phases.map((phase, i) => (
+    <div
+      class="py-10 md:py-0 md:px-10 first:md:pl-0 last:md:pr-0 reveal-on-scroll"
+      style={`animation-delay: ${i * 0.15}s`}
+    >
+      <p class="text-xs uppercase tracking-[0.25em] opacity-30 mb-5">0{i + 1}</p>
+      <h3 class="text-4xl md:text-5xl font-display font-bold tracking-tight leading-none mb-4">
+        {t(locale, `process.${phase}.label`)}
+      </h3>
+      <p class="text-sm font-display italic opacity-50 mb-7 leading-relaxed">
+        {t(locale, `process.${phase}.subtitle`)}
+      </p>
+      <ul class="space-y-2.5">
+        {tArray(locale, `process.${phase}.items`).map((item) => (
+          <li class="text-xs md:text-sm opacity-50 flex items-start gap-2.5">
+            <span class="opacity-40 shrink-0 mt-px">—</span>
+            {item}
+          </li>
+        ))}
+      </ul>
+    </div>
+  ))}
+</div>

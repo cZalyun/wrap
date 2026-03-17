@@ -17,24 +17,21 @@
     "phonetic": "/ ræp /",
     "meaning": "The culmination of a creative vision — where concept, craft, and story converge into a finished piece. In film, \"that's a wrap\" signals the moment art becomes complete."
   },
-  "services": {
-    "title": "What We Do",
-    "items": {
-      "author": {
-        "title": "We Craft.",
-        "subtitle": "Stories that start with soul.",
-        "list": ["Concept Development & Ideation", "Creative Direction", "Visual Identity & Tone"]
-      },
-      "direct": {
-        "title": "We Direct.",
-        "subtitle": "Every frame with feeling.",
-        "list": ["Scriptwriting & Storyboarding", "Full-Scale Video Production", "Editing & Post-Production"]
-      },
-      "share": {
-        "title": "We Deliver.",
-        "subtitle": "Crafted to connect.",
-        "list": ["Campaign Strategy & Management", "Content Optimisation", "Community Engagement & Repurposing"]
-      }
+  "process": {
+    "ready": {
+      "label": "READY",
+      "subtitle": "Where ideas take shape before the camera rolls.",
+      "items": ["Project Development & Pre-Production", "Creative Planning & Scheduling", "Production Management & Coordination"]
+    },
+    "set": {
+      "label": "SET",
+      "subtitle": "Bringing vision to life, frame by frame.",
+      "items": ["On-Set Direction & Filming", "Cinematography & Lighting", "Full-Scale Production Execution"]
+    },
+    "wrap": {
+      "label": "WRAP",
+      "subtitle": "Shaping the final story to perfection.",
+      "items": ["Editing & Post-Production", "Color Grading & Sound Design", "Final Delivery & Format Optimization"]
     }
   },
   "featuredWork": {
@@ -91,8 +88,8 @@
     "formSend": "Send Message"
   },
   "cta": {
-    "title": "Got something in mind?",
-    "subtitle": "Let's create something extraordinary together.",
+    "title": "Your story. Our wrap.",
+    "subtitle": "Have a project in mind or just want to connect? Drop us a message — we'd love to hear from you.",
     "button": "Get in Touch"
   },
   "footer": {
@@ -102,6 +99,8 @@
     "legal": "Legal",
     "privacy": "Privacy Policy",
     "terms": "Terms & Conditions",
+    "ourOffice": "Our Office",
+    "address": "Budapest, Törökvész út 3/a, 1025",
     "copyright": "© {year} Wrap Film Factory. All rights reserved."
   },
   "work": {

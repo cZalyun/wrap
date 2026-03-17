@@ -27,7 +27,7 @@ const { locale = 'en' } = Astro.props;
         </a>
       ))}
       <div class="flex items-center gap-3 ml-4 navbar-controls">
-        <LanguageToggle locale={locale} />
+        {!siteConfig.singleLocale && <LanguageToggle locale={locale} />}
         <ThemeToggle locale={locale} />
       </div>
     </div>
@@ -59,7 +59,7 @@ const { locale = 'en' } = Astro.props;
       </a>
     ))}
     <div class="flex items-center gap-5 mt-6 opacity-0 translate-y-4 mobile-nav-link transition-all duration-300" style={`transition-delay: ${siteConfig.navigation.length * 60 + 100}ms;`}>
-      <LanguageToggle locale={locale} />
+      {!siteConfig.singleLocale && <LanguageToggle locale={locale} />}
       <ThemeToggle locale={locale} />
     </div>
   </div>

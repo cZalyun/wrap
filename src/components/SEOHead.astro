@@ -32,7 +32,7 @@ const {
 } = Astro.props;
 
 const siteTitle = t(locale, 'meta.siteTitle');
-const pageTitle = title ? `${title} | ${siteTitle}` : `${siteTitle} | ${t(locale, 'meta.siteDescription')}`;
+const pageTitle = title ? `${siteTitle} | ${title}` : `${siteTitle} | ${t(locale, 'meta.siteDescription')}`;
 const rawDescription = description || t(locale, 'meta.siteDescription');
 const pageDescription = truncateDescription(rawDescription);
 const pageOgImage = resolveOgImage(ogImage);

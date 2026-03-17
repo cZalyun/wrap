@@ -18,7 +18,7 @@ const copyright = t(locale, 'footer.copyright').replace('{year}', String(year));
     </a>
 
     <!-- Main grid: 2-col on mobile, 3-col on desktop -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-8 md:gap-x-12 mb-10 md:mb-16">
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-8 md:gap-12 mb-10 md:mb-16">
       <!-- Team members — each gets a column on mobile -->
       {siteConfig.team.map((member) => (
         <div>
@@ -64,6 +64,19 @@ const copyright = t(locale, 'footer.copyright').replace('{year}', String(year));
             </li>
           ))}
         </ul>
+      </div>
+
+      <!-- Our Office -->
+      <div>
+        <h3 class="text-xs md:text-sm font-bold uppercase tracking-[0.12em] mb-3 md:mb-5">{t(locale, 'footer.ourOffice')}</h3>
+        <a
+          href={`https://maps.google.com/?q=${encodeURIComponent(t(locale, 'footer.address'))}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-xs md:text-sm opacity-70 hover:opacity-100 transition-opacity leading-relaxed"
+        >
+          {t(locale, 'footer.address')}
+        </a>
       </div>
     </div>
 
