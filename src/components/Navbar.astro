@@ -12,8 +12,7 @@ const { locale = 'en' } = Astro.props;
   <nav class="mx-auto max-w-7xl px-6 lg:px-8 flex items-center justify-between h-16 lg:h-20">
     <!-- Logo -->
     <a href={localePath(locale, '/')} class="relative z-50 transition-opacity hover:opacity-70 flex items-center" aria-label={siteConfig.brand}>
-      <img src={`${import.meta.env.BASE_URL.replace(/\/$/, '')}${siteConfig.logoLight}`} alt={siteConfig.brand} class="logo-dark-mode h-7 md:h-8 w-auto" />
-      <img src={`${import.meta.env.BASE_URL.replace(/\/$/, '')}${siteConfig.logoDark}`} alt={siteConfig.brand} class="logo-light-mode h-7 md:h-8 w-auto hidden" />
+      <img src={`${import.meta.env.BASE_URL.replace(/\/$/, '')}${siteConfig.logoLight}`} alt={siteConfig.brand} class="logo h-10 md:h-12 w-auto" />
     </a>
 
     <!-- Desktop nav -->
@@ -66,8 +65,7 @@ const { locale = 'en' } = Astro.props;
 </div>
 
 <style>
-  #navbar.navbar-menu-open .logo-dark-mode  { display: block !important; }
-  #navbar.navbar-menu-open .logo-light-mode { display: none  !important; }
+  /* Logo switching removed - always using white logo */
 </style>
 
 <script is:inline>

@@ -23,7 +23,7 @@ const phases = ['ready', 'set', 'wrap'] as const;
       <ul class="space-y-2.5">
         {tArray(locale, `process.${phase}.items`).map((item) => (
           <li class="text-xs md:text-sm opacity-50 flex items-start gap-2.5">
-            <span class="opacity-40 shrink-0 mt-px">—</span>
+            <span class="opacity-40 shrink-0 mt-px">•</span>
             {item}
           </li>
         ))}

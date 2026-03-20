@@ -111,10 +111,13 @@ export const siteConfig: SiteConfig = {
   foundersBannerImage: '/images/hero-poster.svg',
   servicesImage: '/images/hero-poster.svg',
   brands: [
-    { name: 'AutoWallis Group', image: '/images/brands/AutoWallisGroup_LOGO_CMYK.png' },
+    { name: 'AutoWallis Group', image: '/images/brands/AutoWallisGroup_LOGO_black.png' },
     { name: 'NFI – Nemzeti Filmintézet', image: '/images/brands/NFI_alap_BLACK_HU.png' },
-    { name: 'Magyar Autóklub', image: '/images/brands/magyar_autoklub_logo.png' },
-    { name: 'Müpa Budapest', image: '/images/brands/mupa_logo_2020.png' },
+    { name: 'Ensana', image: '/images/brands/ensana_logo-2.webp' },
+    { name: 'Kabinka', image: '/images/brands/kabinka_logo_allo-210x300.png' },
+    { name: 'Magyar Autóklub', image: '/images/brands/magyar_autoklub_logo_ALAP.png' },
+    { name: 'Müpa Budapest', image: '/images/brands/mupa_logo_black.png' },
+    { name: 'Sooda', image: '/images/brands/sooda_logo_black.png' },
   ],
   contactPageTitle: {
     en: 'Your story. Our wrap.',
