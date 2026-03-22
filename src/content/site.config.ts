@@ -14,9 +14,13 @@ export interface WorkItem {
   coverImage: string;
   /** Optional dedicated 1200×630 JPEG/PNG for link previews. Falls back to coverImage, then site default. */
   ogImage?: string;
-  year: number;
+  year?: number;
   role: LocaleString;
   metrics?: { label: LocaleString; value: string }[];
+  /** Video file path for work item */
+  videoFile?: string;
+  /** Optional HEVC version for better compression */
+  videoFileHEVC?: string;
 }
 
 export interface TeamMember {
@@ -60,28 +64,23 @@ export interface SiteConfig {
   logoIcon: string;
   heroVideo: string;
   heroVideoMobile: string;
-  /** Optional HEVC/H.265 encoded version — served only to browsers that support it */
-  heroVideoHEVC?: string;
-  heroVideoMobileHEVC?: string;
+  heroVideoHEVC: string;
+  heroVideoMobileHEVC: string;
   heroPoster: string;
-  heroHeading: LocaleString;
-  introText: LocaleString;
-  foundersBannerImage: string;
-  servicesImage: string;
-  brands: { name: string; image: string }[];
-  contactPageTitle: LocaleString;
-  contactPageSubtitle: LocaleString;
-  /** Anti-scrape general contact email: [user, domain, tld] */
-  contactEmail: [string, string, string];
-  legal: {
-    privacy: LegalLink;
-    terms: LegalLink;
-  };
-  navigation: { key: string; path: string }[];
+  ogImage: string;
+  favicon: string;
+  siteUrl: string;
+  contact: ContactInfo;
+  legal: LegalInfo;
+  navigation: NavigationItem[];
   work: WorkItem[];
   team: TeamMember[];
   testimonials: Testimonial[];
   socials: SocialLink[];
+  /** Maximum width for work video tiles in pixels */
+  workTileMaxSize?: number;
+  /** When true, hides the featured work section from the home page */
+  hideFeaturedWork?: boolean;
 }
 
 export const siteConfig: SiteConfig = {
@@ -95,10 +94,10 @@ export const siteConfig: SiteConfig = {
   logoDark: '/images/logo-black.png',
   logoIcon: '/images/logo-icon.jpg',
   // heroVideo: 'https://videos.pexels.com/video-files/3571264/3571264-uhd_2560_1440_30fps.mp4',
-  heroVideo: '/images/videos/hero-video.mp4',
-  heroVideoMobile: '/images/videos/hero-video-mobile-portrait.mp4',
-  heroVideoHEVC: '/images/videos/hero-video.hevc.mp4',
-  heroVideoMobileHEVC: '/images/videos/hero-video-mobile.hevc.mp4',
+  heroVideo: '/images/videos/hero-video.hevc.small.mp4',
+  heroVideoMobile: '/images/videos/hero-video-mobile-portrait.hevc.small.mp4',
+  heroVideoHEVC: '/images/videos/hero-video.hevc.small.mp4',
+  heroVideoMobileHEVC: '/images/videos/hero-video-mobile.hevc.small.mp4',
   heroPoster: '/images/hero-poster.svg',
   heroHeading: {
     en: 'BRAND STORYTELLING IN MOTION',
@@ -141,85 +140,22 @@ export const siteConfig: SiteConfig = {
   ],
 
   work: [
-   /*
     {
-      slug: 'aurora-campaign',
-      title: { en: 'Aurora Campaign', hu: 'Aurora Kampány' },
-      subtitle: { en: 'A cinematic journey through light and motion', hu: 'Filmes utazás a fény és a mozgás világában' },
-      category: { en: 'Brand Film', hu: 'Márkafilm' },
+      slug: '',
+      title: { en: '', hu: '' },
+      subtitle: { en: '', hu: '' },
+      category: { en: '', hu: '' },
       description: {
-        en: 'We crafted a cinematic brand film for Aurora that captured the essence of their innovative lighting technology. The project spanned three locations across Europe, featuring dynamic cinematography and a compelling narrative arc that elevated the brand\'s premium positioning.',
-        hu: 'Egy filmes márkafilmet készítettünk az Aurora számára, amely megragadta innovatív világítástechnológiájuk lényegét. A projekt három európai helyszínen zajlott, dinamikus operatőri munkával és meggyőző narratív ívvel.',
+        en: '',
+        hu: '',
       },
-      coverImage: '/images/work/aurora.svg',
-      year: 2024,
-      role: { en: 'Full Production & Post', hu: 'Teljes gyártás & Utómunka' },
-      metrics: [
-        { label: { en: 'Views', hu: 'Megtekintés' }, value: '2.4M' },
-        { label: { en: 'Engagement', hu: 'Elköteleződés' }, value: '+340%' },
-      ],
-    },
-    {
-      slug: 'meridian-motors',
-      title: { en: 'Meridian Motors', hu: 'Meridian Motors' },
-      subtitle: { en: 'Redefining automotive storytelling', hu: 'Az autóipari történetmesélés újragondolása' },
-      category: { en: 'Automotive', hu: 'Autóipar' },
-      description: {
-        en: 'A high-end automotive campaign for Meridian Motors that showcased their flagship electric vehicle through breathtaking aerial cinematography and intimate detail shots. We captured the intersection of performance and elegance.',
-        hu: 'Egy prémium autóipari kampány a Meridian Motors számára, amely lélegzetelállító légi felvételekkel és intim részletfelvételekkel mutatta be csúcsmodelljüket.',
-      },
-      coverImage: '/images/work/meridian.svg',
-      year: 2024,
-      role: { en: 'Creative Direction & Production', hu: 'Kreatív irányítás & Gyártás' },
-      metrics: [
-        { label: { en: 'Duration', hu: 'Időtartam' }, value: '90s' },
-        { label: { en: 'Locations', hu: 'Helyszínek' }, value: '5' },
-      ],
-    },
-    {
-      slug: 'solace-fashion',
-      title: { en: 'Solace', hu: 'Solace' },
-      subtitle: { en: 'Fashion through a cinematic lens', hu: 'Divat filmes szemszögből' },
-      category: { en: 'Fashion', hu: 'Divat' },
-      description: {
-        en: 'An editorial fashion film for Solace that blended high fashion with raw emotional storytelling. Shot on location in a brutalist architectural setting, we created a visual language that resonated across digital and traditional media.',
-        hu: 'Egy szerkesztőségi divatfilm a Solace számára, amely ötvözte a haute couture-t a nyers érzelmi történetmeséléssel. Brutalista építészeti környezetben forgatva, egy vizuális nyelvet hoztunk létre.',
-      },
-      coverImage: '/images/work/solace.svg',
-      year: 2023,
-      role: { en: 'Direction & Cinematography', hu: 'Rendezés & Operatőri munka' },
-    },
-    {
-      slug: 'vantage-tech',
-      title: { en: 'Vantage', hu: 'Vantage' },
-      subtitle: { en: 'Technology meets emotion', hu: 'Ahol a technológia és az érzelem találkozik' },
-      category: { en: 'Technology', hu: 'Technológia' },
-      description: {
-        en: 'We produced a series of product films for Vantage that humanized cutting-edge technology. Through careful narrative design and striking visual compositions, we transformed complex features into compelling stories.',
-        hu: 'Egy termékfilm-sorozatot készítettünk a Vantage számára, amely emberközelivé tette az élvonalbeli technológiát. Gondos narratív tervezéssel és lenyűgöző vizuális kompozíciókkal.',
-      },
-      coverImage: '/images/work/vantage.svg',
-      year: 2023,
-      role: { en: 'Full Production', hu: 'Teljes gyártás' },
-      metrics: [
-        { label: { en: 'Deliverables', hu: 'Anyagok' }, value: '12' },
-        { label: { en: 'Platforms', hu: 'Platformok' }, value: '6' },
-      ],
-    },
-    {
-      slug: 'elara-wellness',
-      title: { en: 'Elara', hu: 'Elara' },
-      subtitle: { en: 'Wellness redefined', hu: 'Újragondolt wellness' },
-      category: { en: 'Lifestyle', hu: 'Életmód' },
-      description: {
-        en: 'A brand film series for Elara Wellness that captured the tranquility and transformation at the heart of their brand. We used natural light and flowing compositions to create a meditative visual experience.',
-        hu: 'Egy márkafilm-sorozat az Elara Wellness számára, amely megragadta a nyugalmat és az átalakulást a márkájuk szívében.',
-      },
-      coverImage: '/images/work/elara.svg',
-      year: 2023,
-      role: { en: 'Creative & Production', hu: 'Kreatív & Gyártás' },
-    },
-    */
+      coverImage: '/images/hero-thumbnail.jpeg',
+      videoFile: '/images/videos/hero-video.mp4',
+      videoFileHEVC: '/images/videos/hero-video.hevc.mp4',
+      year: undefined,
+      role: { en: '', hu: '' },
+      metrics: [],
+    }
   ],
 
   team: [
@@ -240,7 +176,7 @@ export const siteConfig: SiteConfig = {
       role: { en: 'Co-Founder & Director of Photography', hu: 'Társalapító & Operatőr' },
       bio: {
         en: 'Márk is passionate about bringing visions to life through powerful, cinematic visuals. His work blends emotion, storytelling, cinematography, and color to create content that connects on a deeper level.',
-        hu: 'Márk szenvedélyesen kelti életre az elképzeléseket erőteljes, filmes vizuálokon keresztül. Munkája ötvözi az érzelmet, a történetmesélést, az operatőri munkát és a színeket.',
+        hu: 'Márk szenvedélyesen kelti életre az elképzeléseket erőtelmes, filmes vizuálokon keresztül. Munkája ötvözi az érzelmet, a történetmesélést, az operatőri munkát és a színeket.',
       },
       image: '/images/team/mark.svg',
       phoneParts: ['+36', '30', '765 4321'],
@@ -250,8 +186,8 @@ export const siteConfig: SiteConfig = {
   ],
 
   testimonials: [
-  /* 
-   {
+  /*
+    {
       quote: {
         en: 'Working with Wrap Film Factory has taken our production and brand to a whole new level. They cut through the unnecessary fluff, delivering the full process from concept to post. The experience of working with a focused team who truly delivers better results has been a game changer.',
         hu: 'A Wrap Film Factory-val való munka teljesen új szintre emelte a produkciónkat és márkánkat. Átvágták a felesleges részt, és a teljes folyamatot szállították a koncepciótól az utómunkáig.',
@@ -289,6 +225,9 @@ export const siteConfig: SiteConfig = {
     { name: 'Instagram', url: 'https://www.instagram.com/wrapfilmfactory/', icon: 'instagram' },
     { name: 'YouTube', url: 'https://www.youtube.com/@Wrapfilmfactory', icon: 'youtube' },
   ],
+
+  workTileMaxSize: 500, // Maximum width for work video tiles in pixels
+  hideFeaturedWork: true, // Hide the featured work section from the home page
 };
 
 export function getLocalizedString(ls: LocaleString, locale: Locale): string {
