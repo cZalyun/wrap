@@ -141,19 +141,19 @@ export const siteConfig: SiteConfig = {
 
   work: [
     {
-      slug: '',
+      slug: 'hero-reel',
       title: { en: '', hu: '' },
-      subtitle: { en: '', hu: '' },
+      subtitle: { en: 'Brand storytelling in motion', hu: 'Brand storytelling in motion' },
       category: { en: '', hu: '' },
       description: {
-        en: '',
-        hu: '',
+        en: 'A showcase of our cinematic approach to brand storytelling.',
+        hu: 'A showcase of our cinematic approach to brand storytelling.',
       },
       coverImage: '/images/hero-thumbnail.jpeg',
       videoFile: '/images/videos/hero-video.mp4',
       videoFileHEVC: '/images/videos/hero-video.hevc.mp4',
       year: undefined,
-      role: { en: '', hu: '' },
+      role: { en: 'Full Production', hu: 'Full Production' },
       metrics: [],
     }
   ],
