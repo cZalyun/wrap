@@ -381,11 +381,24 @@ const locale = 'en';
           
           // Click to fullscreen
           container.addEventListener('click', function(e) {
+            handleVideoFullscreen(video, e);
+          });
+          
+          // Touch events for mobile
+          container.addEventListener('touchend', function(e) {
+            e.preventDefault(); // Prevent mouse click simulation
+            handleVideoFullscreen(video, e);
+          });
+          
+          function handleVideoFullscreen(video, event) {
             if (video) {
               if (video.paused) {
                 video.play().catch(e => console.log('Video play failed:', e));
                 video.removeAttribute('poster');
               }
+              
+              // Add controls for fullscreen
+              video.setAttribute('controls', '');
               
               if (video.requestFullscreen) {
                 video.requestFullscreen();
@@ -395,7 +408,7 @@ const locale = 'en';
                 video.msRequestFullscreen();
               }
             }
-          });
+          }
           
           // Handle video end
           video.addEventListener('ended', function() {
@@ -407,6 +420,8 @@ const locale = 'en';
           // Handle fullscreen exit
           video.addEventListener('fullscreenchange', function() {
             if (!document.fullscreenElement) {
+              // Remove controls when exiting fullscreen
+              video.removeAttribute('controls');
               video.setAttribute('poster', originalPoster);
               if (video.paused) {
                 video.currentTime = 0;
