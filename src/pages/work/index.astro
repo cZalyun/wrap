@@ -472,9 +472,13 @@ const locale = 'en';
                 }
               }
               
-              // Restore time after a short delay (some browsers reset time on fullscreen)
+              // Only restore time if video was actually reset to beginning (not for desktop)
+              // This prevents jumping on desktop when video continues playing normally
               setTimeout(() => {
-                if (Math.abs(video.currentTime - currentTimeBeforeFullscreen) > 1) {
+                // Only restore if video jumped significantly (more than 2 seconds difference)
+                // and if it jumped to near the beginning (under 2 seconds)
+                const timeDiff = Math.abs(video.currentTime - currentTimeBeforeFullscreen);
+                if (timeDiff > 2 && video.currentTime < 2) {
                   video.currentTime = currentTimeBeforeFullscreen;
                 }
               }, 100);
@@ -490,35 +494,35 @@ const locale = 'en';
           
           // Handle play/pause events for mobile controls visibility
           video.addEventListener('play', function() {
-            // Show controls when playing (both desktop and mobile)
-            if (!document.fullscreenElement) {
+            // Only show controls in fullscreen (both mobile and desktop)
+            if (document.fullscreenElement) {
               video.setAttribute('controls', '');
             }
           });
           
           video.addEventListener('pause', function() {
-            // Hide controls when paused on mobile (not fullscreen)
+            // Hide controls when paused (both mobile and desktop)
             if (!document.fullscreenElement) {
-              // Check if mobile device
-              const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-              if (isMobile) {
-                video.removeAttribute('controls');
-              }
+              video.removeAttribute('controls');
             }
           });
           
           // Handle fullscreen exit
           video.addEventListener('fullscreenchange', function() {
             if (!document.fullscreenElement) {
-              // Remove controls when exiting fullscreen
+              // Exiting fullscreen - immediate cleanup to prevent flickering
               video.removeAttribute('controls');
-              video.setAttribute('poster', originalPoster);
-              if (video.paused) {
-                video.currentTime = 0;
-                video.load(); // Force reload to show poster
-              }
+              
+              // Small delay before restoring poster to avoid flicker
+              setTimeout(() => {
+                video.setAttribute('poster', originalPoster);
+                if (video.paused) {
+                  video.currentTime = 0;
+                  video.load(); // Force reload to show poster
+                }
+              }, 50);
             } else {
-              // In fullscreen, add tap-to-toggle controls
+              // Entering fullscreen - add tap-to-toggle controls
               let controlsTimeout;
               
               function showControlsTemporarily() {
