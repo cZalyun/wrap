@@ -441,6 +441,9 @@ const locale = 'hu';
           
           function handleVideoFullscreen(video, event) {
             if (video) {
+              // Store current time before fullscreen
+              const currentTimeBeforeFullscreen = video.currentTime;
+              
               if (video.paused) {
                 video.play().catch(e => console.log('Video play failed:', e));
                 video.removeAttribute('poster');
@@ -468,6 +471,13 @@ const locale = 'hu';
                   video.play().catch(e => console.log('Video play failed:', e));
                 }
               }
+              
+              // Restore time after a short delay (some browsers reset time on fullscreen)
+              setTimeout(() => {
+                if (Math.abs(video.currentTime - currentTimeBeforeFullscreen) > 1) {
+                  video.currentTime = currentTimeBeforeFullscreen;
+                }
+              }, 100);
             }
           }
           
@@ -476,6 +486,25 @@ const locale = 'hu';
             video.setAttribute('poster', originalPoster);
             video.currentTime = 0;
             video.load(); // Force reload to show poster
+          });
+          
+          // Handle play/pause events for mobile controls visibility
+          video.addEventListener('play', function() {
+            // Show controls when playing (both desktop and mobile)
+            if (!document.fullscreenElement) {
+              video.setAttribute('controls', '');
+            }
+          });
+          
+          video.addEventListener('pause', function() {
+            // Hide controls when paused on mobile (not fullscreen)
+            if (!document.fullscreenElement) {
+              // Check if mobile device
+              const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+              if (isMobile) {
+                video.removeAttribute('controls');
+              }
+            }
           });
           
           // Handle fullscreen exit
