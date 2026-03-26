@@ -26,6 +26,7 @@ const locale = 'en';
                 muted
                 loop
                 playsInline
+                playsinline
                 poster={work.coverImage}
                 data-slug={work.slug}
               >
@@ -53,11 +54,12 @@ const locale = 'en';
               muted
               loop
               playsInline
+              playsinline
               poster={siteConfig.heroPoster}
               data-slug="hero"
             >
-              <source src={siteConfig.heroVideo} type="video/mp4">
-              {siteConfig.heroVideoHEVC && <source src={siteConfig.heroVideoHEVC} type="video/mp4; codecs=hev1">}
+              <source src={siteConfig.heroVideo} type="video/mp4" playsinline>
+              {siteConfig.heroVideoHEVC && <source src={siteConfig.heroVideoHEVC} type="video/mp4; codecs=hev1" playsinline>}
               Your browser does not support the video tag.
             </video>
             <div class="video-overlay">
@@ -76,11 +78,12 @@ const locale = 'en';
               muted
               loop
               playsInline
+              playsinline
               poster={siteConfig.heroPoster}
               data-slug="sample-1"
             >
-              <source src={siteConfig.heroVideo} type="video/mp4">
-              {siteConfig.heroVideoHEVC && <source src={siteConfig.heroVideoHEVC} type="video/mp4; codecs=hev1">}
+              <source src={siteConfig.heroVideo} type="video/mp4" playsinline>
+              {siteConfig.heroVideoHEVC && <source src={siteConfig.heroVideoHEVC} type="video/mp4; codecs=hev1" playsinline>}
               Your browser does not support the video tag.
             </video>
             <div class="video-overlay">
@@ -99,11 +102,12 @@ const locale = 'en';
               muted
               loop
               playsInline
+              playsinline
               poster={siteConfig.heroPoster}
               data-slug="sample-2"
             >
-              <source src={siteConfig.heroVideo} type="video/mp4">
-              {siteConfig.heroVideoHEVC && <source src={siteConfig.heroVideoHEVC} type="video/mp4; codecs=hev1">}
+              <source src={siteConfig.heroVideo} type="video/mp4" playsinline>
+              {siteConfig.heroVideoHEVC && <source src={siteConfig.heroVideoHEVC} type="video/mp4; codecs=hev1" playsinline>}
               Your browser does not support the video tag.
             </video>
             <div class="video-overlay">
@@ -122,11 +126,12 @@ const locale = 'en';
               muted
               loop
               playsInline
+              playsinline
               poster={siteConfig.heroPoster}
               data-slug="sample-3"
             >
-              <source src={siteConfig.heroVideo} type="video/mp4">
-              {siteConfig.heroVideoHEVC && <source src={siteConfig.heroVideoHEVC} type="video/mp4; codecs=hev1">}
+              <source src={siteConfig.heroVideo} type="video/mp4" playsinline>
+              {siteConfig.heroVideoHEVC && <source src={siteConfig.heroVideoHEVC} type="video/mp4; codecs=hev1" playsinline>}
               Your browser does not support the video tag.
             </video>
             <div class="video-overlay">
@@ -234,6 +239,36 @@ const locale = 'en';
       .video-container:hover .play-icon {
         transform: scale(1);
         background: rgba(255, 255, 255, 1);
+      }
+      
+      /* Hide overlay in fullscreen to show native controls */
+      .video-container:fullscreen .video-overlay,
+      .video-container:-webkit-full-screen .video-overlay,
+      .video-container:-moz-full-screen .video-overlay,
+      .video-container:-ms-fullscreen .video-overlay {
+        display: none !important;
+      }
+      
+      /* Ensure video takes full space in fullscreen */
+      .video-container:fullscreen .work-video,
+      .video-container:-webkit-full-screen .work-video,
+      .video-container:-moz-full-screen .work-video,
+      .video-container:-ms-fullscreen .work-video {
+        width: 100vw !important;
+        height: 100vh !important;
+        object-fit: contain !important;
+        transform: none !important;
+        filter: none !important;
+      }
+      
+      /* Reset container styles in fullscreen */
+      .video-container:fullscreen,
+      .video-container:-webkit-full-screen,
+      .video-container:-moz-full-screen,
+      .video-container:-ms-fullscreen {
+        border-radius: 0 !important;
+        transform: none !important;
+        box-shadow: none !important;
       }
       
       .work-info {
@@ -387,7 +422,21 @@ const locale = 'en';
           // Touch events for mobile
           container.addEventListener('touchend', function(e) {
             e.preventDefault(); // Prevent mouse click simulation
+            // For mobile, try to play video first, then handle fullscreen
+            if (video && video.paused) {
+              video.play().catch(e => console.log('Video play failed:', e));
+              video.removeAttribute('poster');
+            }
             handleVideoFullscreen(video, e);
+            
+            // Reset visual feedback
+            container.style.transform = '';
+          });
+          
+          // Add touchstart for better mobile interaction
+          container.addEventListener('touchstart', function(e) {
+            // Visual feedback for touch
+            container.style.transform = 'scale(0.98)';
           });
           
           function handleVideoFullscreen(video, event) {
@@ -397,15 +446,27 @@ const locale = 'en';
                 video.removeAttribute('poster');
               }
               
-              // Add controls for fullscreen
+              // Add controls for better mobile experience
               video.setAttribute('controls', '');
               
-              if (video.requestFullscreen) {
-                video.requestFullscreen();
-              } else if (video.webkitRequestFullscreen) {
-                video.webkitRequestFullscreen();
-              } else if (video.msRequestFullscreen) {
-                video.msRequestFullscreen();
+              // Try fullscreen with better mobile support
+              try {
+                if (video.requestFullscreen) {
+                  video.requestFullscreen();
+                } else if (video.webkitRequestFullscreen) {
+                  video.webkitRequestFullscreen();
+                } else if (video.webkitEnterFullscreen) {
+                  // iOS Safari alternative
+                  video.webkitEnterFullscreen();
+                } else if (video.msRequestFullscreen) {
+                  video.msRequestFullscreen();
+                }
+              } catch (error) {
+                console.log('Fullscreen failed:', error);
+                // Fallback: just play the video with controls
+                if (video.paused) {
+                  video.play().catch(e => console.log('Video play failed:', e));
+                }
               }
             }
           }
@@ -427,6 +488,35 @@ const locale = 'en';
                 video.currentTime = 0;
                 video.load(); // Force reload to show poster
               }
+            } else {
+              // In fullscreen, add tap-to-toggle controls
+              let controlsTimeout;
+              
+              function showControlsTemporarily() {
+                video.setAttribute('controls', '');
+                clearTimeout(controlsTimeout);
+                controlsTimeout = setTimeout(() => {
+                  if (document.fullscreenElement) {
+                    video.removeAttribute('controls');
+                  }
+                }, 3000); // Hide after 3 seconds
+              }
+              
+              // Add tap listener to toggle controls in fullscreen
+              video.addEventListener('click', function toggleControls(e) {
+                if (document.fullscreenElement) {
+                  e.stopPropagation();
+                  if (video.hasAttribute('controls')) {
+                    video.removeAttribute('controls');
+                    clearTimeout(controlsTimeout);
+                  } else {
+                    showControlsTemporarily();
+                  }
+                }
+              });
+              
+              // Show controls initially when entering fullscreen
+              showControlsTemporarily();
             }
           });
         });
