@@ -441,9 +441,6 @@ const locale = 'en';
           
           function handleVideoFullscreen(video, event) {
             if (video) {
-              // Store current time before fullscreen
-              const currentTimeBeforeFullscreen = video.currentTime;
-              
               if (video.paused) {
                 video.play().catch(e => console.log('Video play failed:', e));
                 video.removeAttribute('poster');
@@ -471,17 +468,6 @@ const locale = 'en';
                   video.play().catch(e => console.log('Video play failed:', e));
                 }
               }
-              
-              // Only restore time if video was actually reset to beginning (not for desktop)
-              // This prevents jumping on desktop when video continues playing normally
-              setTimeout(() => {
-                // Only restore if video jumped significantly (more than 2 seconds difference)
-                // and if it jumped to near the beginning (under 2 seconds)
-                const timeDiff = Math.abs(video.currentTime - currentTimeBeforeFullscreen);
-                if (timeDiff > 2 && video.currentTime < 2) {
-                  video.currentTime = currentTimeBeforeFullscreen;
-                }
-              }, 100);
             }
           }
           
