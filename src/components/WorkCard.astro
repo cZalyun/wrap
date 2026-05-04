@@ -1,7 +1,7 @@
 ---
 import { localePath, type Locale } from '../i18n/utils';
 import type { WorkItem } from '../content/site.config';
-import { getLocalizedString } from '../content/site.config';
+import { getLocalizedString, resolveCoverStyle } from '../content/site.config';
 
 interface Props {
   work: WorkItem;
@@ -11,6 +11,7 @@ interface Props {
 
 const { work, locale, index } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const cover = resolveCoverStyle(work);
 ---
 
 <a
@@ -18,14 +19,15 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   class="group block reveal-on-scroll"
   style={`animation-delay: ${index * 0.1}s`}
 >
-  <div class="relative aspect-[16/10] rounded-xl overflow-hidden mb-4 border theme-border">
+  <div class="relative aspect-[16/10] rounded-xl overflow-hidden mb-4 border theme-border" style={cover.frame}>
     <img
       src={`${base}${work.coverImage}`}
       alt={getLocalizedString(work.title, locale)}
       width="800"
       height="500"
       loading={index < 2 ? 'eager' : 'lazy'}
-      class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+      class="w-full h-full transition-transform duration-500 group-hover:scale-105"
+      style={cover.image}
     />
     <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
   </div>

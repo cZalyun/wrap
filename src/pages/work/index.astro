@@ -4,10 +4,11 @@ import Section from '../../components/Section.astro';
 import FeaturedWorkEmbed from '../../components/FeaturedWorkEmbed.astro';
 import CTASection from '../../components/CTASection.astro';
 import RevealOnScroll from '../../components/RevealOnScroll.astro';
-import { siteConfig, getLocalizedString } from '../../content/site.config';
+import { siteConfig, getLocalizedString, resolveCoverStyle } from '../../content/site.config';
 import { t } from '../../i18n/utils';
 
 const locale = 'en';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <BaseLayout title={t(locale, 'work.pageTitle')} description={t(locale, 'work.pageSubtitle')} locale={locale}>
@@ -18,16 +19,28 @@ const locale = 'en';
     </div>
     {siteConfig.work.length > 0 ? (
       <div class="work-grid">
-        {siteConfig.work.map((work, i) => (
+        {siteConfig.work.map((work, i) => {
+          const cover = resolveCoverStyle(work);
+          return (
           <div class="work-tile reveal-on-scroll" style={`--delay: ${i * 0.1}s`}>
-            <div class="video-container">
+            <div class="video-container" style={cover.frame}>
+              <img
+                class="work-poster"
+                src={`${base}${work.coverImage}`}
+                alt={getLocalizedString(work.title, locale)}
+                width="800"
+                height="450"
+                loading={i < 2 ? 'eager' : 'lazy'}
+                decoding="async"
+                style={cover.image}
+              />
               <video 
                 class="work-video"
                 muted
                 loop
                 playsInline
                 playsinline
-                poster={work.coverImage}
+                preload="metadata"
                 data-slug={work.slug}
               >
                 <source src={work.videoFile} type="video/mp4">
@@ -43,7 +56,7 @@ const locale = 'en';
               </div>
             </div>
           </div>
-        ))}
+        );})}
       </div>
     ) : (
       <div class="work-grid">
@@ -193,7 +206,23 @@ const locale = 'en';
         object-fit: cover;
         transition: all 0.4s ease;
       }
-      
+
+      .work-poster {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        pointer-events: none;
+        opacity: 1;
+        transition: opacity 0.35s ease;
+      }
+
+      .video-container:hover .work-poster,
+      .video-container.is-playing .work-poster {
+        opacity: 0;
+      }
+
       .video-container:hover .work-video {
         transform: scale(1.1);
         filter: brightness(0.7);
@@ -388,140 +417,107 @@ const locale = 'en';
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         const workTiles = document.querySelectorAll('.work-tile');
-        
+
         workTiles.forEach(tile => {
           const video = tile.querySelector('.work-video');
           const container = tile.querySelector('.video-container');
-          
-          // Store initial poster
-          const originalPoster = video.getAttribute('poster') || '';
-          
-          // Simple hover to play
+          if (!video || !container) return;
+
           container.addEventListener('mouseenter', function() {
-            if (video && video.paused) {
+            if (video.paused) {
               video.play().catch(e => console.log('Video play failed:', e));
-              video.removeAttribute('poster');
             }
           });
-          
-          // Simple hover out to pause and restore poster
+
           container.addEventListener('mouseleave', function() {
-            if (video && !video.paused) {
+            if (!video.paused) {
               video.pause();
               video.currentTime = 0;
             }
-            video.setAttribute('poster', originalPoster);
-            video.load(); // Force reload to show poster
+            container.classList.remove('is-playing');
           });
-          
-          // Click to fullscreen
+
           container.addEventListener('click', function(e) {
             handleVideoFullscreen(video, e);
           });
-          
-          // Touch events for mobile
+
           container.addEventListener('touchend', function(e) {
-            e.preventDefault(); // Prevent mouse click simulation
-            // For mobile, try to play video first, then handle fullscreen
-            if (video && video.paused) {
-              video.play().catch(e => console.log('Video play failed:', e));
-              video.removeAttribute('poster');
+            e.preventDefault();
+            if (video.paused) {
+              video.play().catch(err => console.log('Video play failed:', err));
             }
             handleVideoFullscreen(video, e);
-            
-            // Reset visual feedback
             container.style.transform = '';
           });
-          
-          // Add touchstart for better mobile interaction
-          container.addEventListener('touchstart', function(e) {
-            // Visual feedback for touch
+
+          container.addEventListener('touchstart', function() {
             container.style.transform = 'scale(0.98)';
           });
-          
-          function handleVideoFullscreen(video, event) {
-            if (video) {
-              if (video.paused) {
-                video.play().catch(e => console.log('Video play failed:', e));
-                video.removeAttribute('poster');
+
+          function handleVideoFullscreen(video) {
+            if (!video) return;
+            if (video.paused) {
+              video.play().catch(err => console.log('Video play failed:', err));
+            }
+            video.setAttribute('controls', '');
+            try {
+              if (video.requestFullscreen) {
+                video.requestFullscreen();
+              } else if (video.webkitRequestFullscreen) {
+                video.webkitRequestFullscreen();
+              } else if (video.webkitEnterFullscreen) {
+                video.webkitEnterFullscreen();
+              } else if (video.msRequestFullscreen) {
+                video.msRequestFullscreen();
               }
-              
-              // Add controls for better mobile experience
-              video.setAttribute('controls', '');
-              
-              // Try fullscreen with better mobile support
-              try {
-                if (video.requestFullscreen) {
-                  video.requestFullscreen();
-                } else if (video.webkitRequestFullscreen) {
-                  video.webkitRequestFullscreen();
-                } else if (video.webkitEnterFullscreen) {
-                  // iOS Safari alternative
-                  video.webkitEnterFullscreen();
-                } else if (video.msRequestFullscreen) {
-                  video.msRequestFullscreen();
-                }
-              } catch (error) {
-                console.log('Fullscreen failed:', error);
-                // Fallback: just play the video with controls
-                if (video.paused) {
-                  video.play().catch(e => console.log('Video play failed:', e));
-                }
+            } catch (error) {
+              console.log('Fullscreen failed:', error);
+              if (video.paused) {
+                video.play().catch(err => console.log('Video play failed:', err));
               }
             }
           }
-          
-          // Handle video end
-          video.addEventListener('ended', function() {
-            video.setAttribute('poster', originalPoster);
-            video.currentTime = 0;
-            video.load(); // Force reload to show poster
+
+          video.addEventListener('playing', function() {
+            container.classList.add('is-playing');
           });
-          
-          // Handle play/pause events for mobile controls visibility
+
+          video.addEventListener('ended', function() {
+            video.currentTime = 0;
+            container.classList.remove('is-playing');
+          });
+
           video.addEventListener('play', function() {
-            // Only show controls in fullscreen (both mobile and desktop)
             if (document.fullscreenElement) {
               video.setAttribute('controls', '');
             }
           });
-          
+
           video.addEventListener('pause', function() {
-            // Hide controls when paused (both mobile and desktop)
+            container.classList.remove('is-playing');
             if (!document.fullscreenElement) {
               video.removeAttribute('controls');
             }
           });
-          
-          // Handle fullscreen exit
+
           video.addEventListener('fullscreenchange', function() {
             if (!document.fullscreenElement) {
-              // Exiting fullscreen - immediate cleanup to prevent flickering
               video.removeAttribute('controls');
-              
-              // Small delay before restoring poster to avoid flicker
-              setTimeout(() => {
-                video.setAttribute('poster', originalPoster);
-                if (video.paused) {
-                  video.currentTime = 0;
-                  video.load(); // Force reload to show poster
-                }
-              }, 50);
+              if (video.paused) {
+                video.currentTime = 0;
+                container.classList.remove('is-playing');
+              }
             } else {
-              // Entering fullscreen - add tap-to-toggle controls
               let controlsTimeout;
-              
-              function showControlsTemporarily() {
+              const showControlsTemporarily = () => {
                 video.setAttribute('controls', '');
                 clearTimeout(controlsTimeout);
                 controlsTimeout = setTimeout(() => {
                   if (document.fullscreenElement) {
                     video.removeAttribute('controls');
                   }
-                }, 3000); // Hide after 3 seconds
-              }
-              
-              // Add tap listener to toggle controls in fullscreen
+                }, 3000);
+              };
               video.addEventListener('click', function toggleControls(e) {
                 if (document.fullscreenElement) {
                   e.stopPropagation();
@@ -533,8 +529,6 @@ const locale = 'en';
                   }
                 }
               });
-              
-              // Show controls initially when entering fullscreen
               showControlsTemporarily();
             }
           });

@@ -10,6 +10,7 @@ import TestimonialCarousel from '../components/TestimonialCarousel.astro';
 import CTASection from '../components/CTASection.astro';
 import RevealOnScroll from '../components/RevealOnScroll.astro';
 import Button from '../components/Button.astro';
+import FilmStillBanner from '../components/FilmStillBanner.astro';
 import { siteConfig, getLocalizedString } from '../content/site.config';
 import { t, tArray, localePath } from '../i18n/utils';
 
@@ -21,13 +22,16 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   <!-- 1. Fullscreen video hero -->
   <Hero locale={locale} />
 
-  <!-- 2. Definition on cream bg -->
+  <!-- 2. Definition on cream bg (with optional dante-17 side image) -->
   <DefinitionBlock locale={locale} />
 
   <!-- 3. Trusted By on olive bg -->
   <BrandMarquee locale={locale} />
 
-  <!-- 4. Featured Work on dark bg -->
+  <!-- 4. Single cinematic still (olive → still → cream break) -->
+  <FilmStillBanner still={siteConfig.homeInterludeStill} locale={locale} />
+
+  <!-- 5. Featured Work on dark bg -->
   {!siteConfig.hideFeaturedWork && siteConfig.work.length > 0 && <Section>
     <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12 reveal-on-scroll">
       <div>
@@ -53,7 +57,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     </div>
   </Section>}
 
-  <!-- 5. Process: READY / SET / WRAP -->
+  <!-- 6. Process: READY / SET / WRAP -->
   <section class="section-cream section-padding px-6 lg:px-8">
     <div class="mx-auto max-w-7xl">
       <ProcessSteps locale={locale} />
@@ -63,7 +67,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   <!-- 7. Reviews on dark bg -->
   <TestimonialCarousel locale={locale} />
 
-  <!-- 8. CTA -->
+  <!-- 8. CTA (with optional dante-27 photo background) -->
   <CTASection locale={locale} />
 
   <RevealOnScroll />

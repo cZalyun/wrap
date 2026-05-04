@@ -1,17 +1,40 @@
 ---
+import { siteConfig, getLocalizedString } from '../content/site.config';
 import { t, localePath, type Locale } from '../i18n/utils';
 import Button from './Button.astro';
 
 interface Props { locale?: Locale; }
 const { locale = 'en' } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const still = siteConfig.homeCtaStill;
 ---
 
-<section class="section-padding px-6 lg:px-8">
-  <div class="mx-auto max-w-4xl text-center reveal-on-scroll">
+<section
+  class:list={[
+    'relative px-6 lg:px-8 flex items-center justify-center',
+    still ? 'min-h-[70vh] md:min-h-[80vh] overflow-hidden py-24 md:py-32' : 'section-padding',
+  ]}
+>
+  {still && (
+    <div class="absolute inset-0 z-0">
+      <img
+        src={`${base}${still.src}`}
+        alt={getLocalizedString(still.alt, locale)}
+        style={still.focal ? `object-position: ${still.focal};` : undefined}
+        class="w-full h-full object-cover motion-safe:animate-[hero-zoom_18s_ease-out_forwards]"
+        loading="lazy"
+        decoding="async"
+      />
+      <div class="absolute inset-0 bg-gradient-to-b from-black/65 via-black/40 to-black/70" aria-hidden="true"></div>
+    </div>
+  )}
+  <div class:list={['relative z-10 mx-auto max-w-4xl text-center reveal-on-scroll', still && 'text-white']}>
     <h2 class="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-display font-semibold tracking-tight-display mb-6">
       {t(locale, 'cta.title')}
     </h2>
-    <p class="text-base md:text-lg opacity-50 mb-10 max-w-xl mx-auto whitespace-pre-line">{t(locale, 'cta.subtitle')}</p>
+    <p class:list={['text-base md:text-lg mb-10 max-w-xl mx-auto whitespace-pre-line', still ? 'opacity-80' : 'opacity-50']}>
+      {t(locale, 'cta.subtitle')}
+    </p>
     <Button href={localePath(locale, '/contact')} variant="primary" size="lg">
       {t(locale, 'cta.button')}
     </Button>

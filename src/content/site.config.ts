@@ -21,6 +21,24 @@ export interface WorkItem {
   videoFile?: string;
   /** Optional HEVC version for better compression */
   videoFileHEVC?: string;
+  /**
+   * How the cover/poster image fits its frame across the work grid, detail page,
+   * and featured/list cards. Defaults to 'cover' (cinematic crop). Use 'contain'
+   * for posters/logos/key art that must be shown without cropping.
+   */
+  coverFit?: 'cover' | 'contain';
+  /** CSS object-position for the cover image. Defaults to 'center'. */
+  coverPosition?: string;
+  /**
+   * Background color/gradient painted behind the cover when coverFit is 'contain'
+   * or the image has transparency. Any valid CSS background value.
+   */
+  coverBackground?: string;
+  /**
+   * CSS padding inside the cover frame, useful when the cover is a logo or square
+   * key art. Accepts any CSS length, e.g. '12%' or '1.5rem'.
+   */
+  coverPadding?: string;
 }
 
 export interface TeamMember {
@@ -38,6 +56,21 @@ export interface Testimonial {
   company: string;
   role: LocaleString;
   image: string;
+}
+
+export interface FilmStill {
+  /** Public path under /images, e.g. '/images/stills/dante-17.jpg' */
+  src: string;
+  /** Localized alt text for accessibility */
+  alt: LocaleString;
+  /** Optional eyebrow line above the heading (small uppercase) */
+  eyebrow?: LocaleString;
+  /** Optional headline rendered as a white-on-dark overlay */
+  heading?: LocaleString;
+  /** Optional CTA shown below the heading */
+  cta?: { label: LocaleString; href: string };
+  /** Optional CSS object-position to control crop focal point, e.g. 'center 30%' */
+  focal?: string;
 }
 
 export interface SocialLink {
@@ -76,6 +109,12 @@ export interface SiteConfig {
   work: WorkItem[];
   team: TeamMember[];
   testimonials: Testimonial[];
+  /** Side image on the home page Definition section. Falls back to single-column layout if undefined. */
+  homeDefinitionStill?: FilmStill;
+  /** Single cinematic full-bleed break between BrandMarquee and Process. Auto-hides if undefined. */
+  homeInterludeStill?: FilmStill;
+  /** Full-bleed photo background for the home CTA section. Falls back to flat dark CTA if undefined. */
+  homeCtaStill?: FilmStill;
   socials: SocialLink[];
   /** Maximum width for work video tiles in pixels */
   workTileMaxSize?: number;
@@ -97,7 +136,7 @@ export const siteConfig: SiteConfig = {
   heroVideo: '/images/videos/hero-video.hevc.small.mp4',
   heroVideoMobile: '/images/videos/hero-video-mobile-portrait.hevc.small.mp4',
   heroVideoHEVC: '/images/videos/hero-video.hevc.small.mp4',
-  heroVideoMobileHEVC: '/images/videos/hero-video-mobile.hevc.small.mp4',
+  heroVideoMobileHEVC: '/images/videos/hero-video-mobile-portrait.hevc.small.mp4',
   heroPoster: '/images/hero-poster.svg',
   heroHeading: {
     en: 'BRAND STORYTELLING IN MOTION',
@@ -118,6 +157,9 @@ export const siteConfig: SiteConfig = {
     { name: 'Müpa Budapest', image: '/images/brands/mupa_logo_black.png' },
     { name: 'Sooda', image: '/images/brands/sooda_logo_black.png' },
   ],
+  homeDefinitionStill: { src: '/images/stills/dante-17.jpg', alt: { en: 'Dante — production still', hu: 'Dante — produkciós kép' } },
+  homeInterludeStill:  { src: '/images/stills/dante-26.jpg', alt: { en: 'Dante — production still', hu: 'Dante — produkciós kép' } },
+  homeCtaStill:        { src: '/images/stills/dante-27.jpg', alt: { en: 'Dante — production still', hu: 'Dante — produkciós kép' } },
   contactPageTitle: {
     en: 'Your story. Our wrap.',
     hu: 'A te történeted. A mi wrapünk.',
@@ -154,6 +196,37 @@ export const siteConfig: SiteConfig = {
       videoFileHEVC: '/images/videos/hero-video.hevc.mp4',
       year: undefined,
       role: { en: 'Full Production', hu: 'Full Production' },
+      metrics: [],
+    },
+    {
+      slug: 'dante-1-percent',
+      title: {
+        en: 'Dante — 1% Campaign',
+        hu: 'Dante — 1% Kampány',
+      },
+      subtitle: {
+        en: 'A cinematic appeal for the Dante Foundation\u2019s 1% tax-donation campaign.',
+        hu: 'Filmes felhívás a Dante Alapítvány 1%-os felajánlási kampányához.',
+      },
+      category: {
+        en: 'NGO Campaign Film',
+        hu: 'NGO kampányfilm',
+      },
+      description: {
+        en: 'An emotionally driven campaign film made for the Dante Foundation to amplify their 1% tax-donation appeal. We blended documentary intimacy with cinematic craft so every viewer can feel the human story behind the choice — turning a single checkbox on a tax return into a meaningful act of support.',
+        hu: 'Érzelmileg vezérelt kampányfilm a Dante Alapítvány számára, amely a szervezet 1%-os felajánlási kérését erősíti. Dokumentarista közelséget és filmes mívességet ötvöztünk, hogy minden néző átérezze a döntés mögötti emberi történetet — egy egyszerű adóbevallásbeli pipából értelmes támogatást formálva.',
+      },
+      coverImage: '/images/work/dante-1-percent.png',
+      videoFile: '/images/videos/dante-1-percent.mp4',
+      coverFit: 'contain',
+      coverBackground: 'transparent',
+      coverPadding: 'clamp(1.5rem, 12%, 4rem)',
+      coverPosition: 'center',
+      year: 2026,
+      role: {
+        en: 'Concept, Direction & Production',
+        hu: 'Koncepció, rendezés és produkció',
+      },
       metrics: [],
     }
   ],
@@ -240,4 +313,33 @@ export function getWorkBySlug(slug: string): WorkItem | undefined {
 
 export function getAllWorkSlugs(): string[] {
   return siteConfig.work.map((w) => w.slug);
+}
+
+export interface CoverStyle {
+  /** Inline style for the wrapping frame (carries the background color). */
+  frame: string;
+  /** Inline style for the cover <img> / poster overlay (object-fit, position, padding). */
+  image: string;
+  /** Resolved object-fit value, available for callers that need to pick a class. */
+  fit: 'cover' | 'contain';
+}
+
+/**
+ * Resolves a WorkItem's cover-* fields into ready-to-apply inline CSS strings
+ * for both the surrounding frame and the inner image. Call sites can spread
+ * these into `style={...}` attributes without further branching.
+ *
+ * Defaults preserve the existing cinematic crop (`cover` + transparent bg + no padding).
+ */
+export function resolveCoverStyle(work: WorkItem): CoverStyle {
+  const fit = work.coverFit ?? 'cover';
+  const position = work.coverPosition ?? 'center';
+  const background = work.coverBackground ?? 'transparent';
+  const padding = work.coverPadding ?? '0';
+
+  return {
+    fit,
+    frame: `background:${background};`,
+    image: `object-fit:${fit};object-position:${position};padding:${padding};background:${background};`,
+  };
 }

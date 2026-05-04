@@ -1,0 +1,60 @@
+---
+import { getLocalizedString, type FilmStill } from '../content/site.config';
+import { type Locale } from '../i18n/utils';
+
+interface Props {
+  still?: FilmStill;
+  locale?: Locale;
+  align?: 'left' | 'center';
+}
+
+const { still, locale = 'en', align = 'left' } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const hasOverlay = !!(still?.eyebrow || still?.heading || still?.cta);
+---
+
+{still && (
+  <section class="relative h-[55vh] md:h-[65vh] lg:h-[72vh] w-full overflow-hidden">
+    <div class="absolute inset-0">
+      <img
+        src={`${base}${still.src}`}
+        alt={getLocalizedString(still.alt, locale)}
+        class="w-full h-full object-cover motion-safe:animate-[hero-zoom_14s_ease-out_forwards]"
+        style={still.focal ? `object-position: ${still.focal};` : undefined}
+        loading="lazy"
+        decoding="async"
+      />
+      <div class="absolute inset-0 bg-gradient-to-t from-black/55 via-black/20 to-black/30" aria-hidden="true"></div>
+    </div>
+
+    {hasOverlay && (
+      <div
+        class:list={[
+          'relative z-10 h-full flex flex-col px-6 lg:px-12 xl:px-20 pb-12 md:pb-16 lg:pb-20',
+          align === 'center' ? 'items-center text-center justify-center' : 'justify-end',
+        ]}
+      >
+        <div class="max-w-3xl">
+          {still.eyebrow && (
+            <p class="text-xs uppercase tracking-[0.25em] text-white/70 mb-3 reveal-on-scroll">
+              {getLocalizedString(still.eyebrow, locale)}
+            </p>
+          )}
+          {still.heading && (
+            <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-semibold leading-[1.05] tracking-tight-display text-white mb-6 reveal-on-scroll">
+              {getLocalizedString(still.heading, locale)}
+            </h2>
+          )}
+          {still.cta && (
+            <a
+              href={still.cta.href}
+              class="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-white/30 text-white text-sm uppercase tracking-display font-medium hover:bg-white hover:text-black transition-all duration-300 reveal-on-scroll"
+            >
+              {getLocalizedString(still.cta.label, locale)}
+            </a>
+          )}
+        </div>
+      </div>
+    )}
+  </section>
+)}

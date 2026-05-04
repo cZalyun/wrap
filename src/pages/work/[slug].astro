@@ -4,7 +4,7 @@ import Section from '../../components/Section.astro';
 import Button from '../../components/Button.astro';
 import CTASection from '../../components/CTASection.astro';
 import RevealOnScroll from '../../components/RevealOnScroll.astro';
-import { siteConfig, getLocalizedString, type WorkItem } from '../../content/site.config';
+import { siteConfig, getLocalizedString, resolveCoverStyle, type WorkItem } from '../../content/site.config';
 import { t, localePath } from '../../i18n/utils';
 import { buildWorkDescription, resolveOgImage } from '../../lib/seo';
 
@@ -28,6 +28,7 @@ const workDescription = buildWorkDescription(
   getLocalizedString(work.subtitle, locale),
 );
 const workOgImage = resolveOgImage(work.ogImage ?? work.coverImage);
+const cover = resolveCoverStyle(work);
 ---
 
 <BaseLayout
@@ -86,13 +87,14 @@ const workOgImage = resolveOgImage(work.ogImage ?? work.coverImage);
       </div>
 
       <!-- Cover image -->
-      <div class="relative aspect-[4/3] rounded-xl overflow-hidden border theme-border">
+      <div class="relative aspect-[4/3] rounded-xl overflow-hidden border theme-border" style={cover.frame}>
         <img
           src={`${base}${work.coverImage}`}
           alt={getLocalizedString(work.title, locale)}
           width="800"
           height="600"
-          class="w-full h-full object-cover"
+          class="w-full h-full"
+          style={cover.image}
         />
       </div>
     </div>

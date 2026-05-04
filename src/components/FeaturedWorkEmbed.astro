@@ -1,7 +1,7 @@
 ---
 import { localePath, type Locale } from '../i18n/utils';
 import type { WorkItem } from '../content/site.config';
-import { getLocalizedString } from '../content/site.config';
+import { getLocalizedString, resolveCoverStyle } from '../content/site.config';
 import { t } from '../i18n/utils';
 
 interface Props {
@@ -13,6 +13,7 @@ interface Props {
 
 const { work, locale, index, featured = false } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const cover = resolveCoverStyle(work);
 ---
 
 <div class="reveal-on-scroll" style={`animation-delay: ${index * 0.15}s`}>
@@ -21,18 +22,22 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     class="group block relative overflow-hidden rounded-xl"
   >
     <!-- Large cinematic aspect ratio like video embed -->
-    <div class:list={[
-      'relative overflow-hidden border theme-border',
-      featured ? 'aspect-[16/9]' : 'aspect-[16/10]',
-      'rounded-xl'
-    ]}>
+    <div
+      class:list={[
+        'relative overflow-hidden border theme-border',
+        featured ? 'aspect-[16/9]' : 'aspect-[16/10]',
+        'rounded-xl'
+      ]}
+      style={cover.frame}
+    >
       <img
         src={`${base}${work.coverImage}`}
         alt={getLocalizedString(work.title, locale)}
         width="1280"
         height="720"
         loading={index < 2 ? 'eager' : 'lazy'}
-        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+        class="w-full h-full transition-transform duration-700 group-hover:scale-105"
+        style={cover.image}
       />
       <!-- Gradient overlay -->
       <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500"></div>
